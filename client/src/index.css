@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components{
+    .shadow-primary {
+        @apply shadow-[0px_22px_70px_4px_rgba(0,0,0,0.9)];
+    }
+    .tag-primary {
+        @apply text-sm py-2 px-6 border-[1px] border-[rgba(255,255,255,0.27)] rounded-3xl cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out;
+    }
+    .limitLine {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+}
+
+
+@layer utilities {
+    @variants responsive {
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      .no-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
+    }
+}
+
+.swiper-button-next, .swiper-button-prev { 
+    color: #fff;
+    background-color: #0000009c;
+    padding: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    transform: translateY(-29px);
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+    font-size: 20px;
+}
