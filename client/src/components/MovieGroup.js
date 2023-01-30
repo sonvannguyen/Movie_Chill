@@ -12,7 +12,7 @@ const MovieGroup = ({movieGroupName}) => {
                 <Swiper 
                     navigation={true} 
                     modules={[Navigation]} 
-                    slidesPerView={3.5}
+                    slidesPerView={4.5}
                     spaceBetween={10}
                 >
                     <SwiperSlide>

@@ -7,7 +7,7 @@ const SidebarSuggestions = () => {
             <div className='py-5 sticky top-0 z-10 bg-[#1c1c1e]'>
                 <div className='relative'>
                     <BsSearch className='absolute top-3 left-3 cursor-pointer'/>
-                    <input type="text" className='bg-zinc-800 outline-none py-2 pl-10 rounded-2xl' />
+                    <input type="text" placeholder='Search movie ...' className='bg-zinc-800 outline-none py-2 pl-10 rounded-2xl placeholder-gray-400 placeholder-opacity-75' />
                 </div>
                 <p className='mt-4 opacity-40 italic'>
                     #avatar2  #wednesday #DoctorStrange #OurBelovedSummer #TrueBeauty

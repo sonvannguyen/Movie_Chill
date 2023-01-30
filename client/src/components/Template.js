@@ -1,3 +1,4 @@
+import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import SidebarSuggestions from "./SidebarSuggestions";
 
@@ -10,6 +11,7 @@ const Template = ({header, children}) => {
             <div className="col-start-2 col-span-3 overflow-y-scroll no-scrollbar h-screen">
                 {header}
                 {children}
+                <Footer/>
             </div>
             <div className="col-span-1">
                 <SidebarSuggestions/>

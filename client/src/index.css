@@ -10,6 +10,9 @@
     .tag-primary {
         @apply text-sm py-2 px-6 border-[1px] border-[rgba(255,255,255,0.27)] rounded-3xl cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out;
     }
+    .menu-item {
+        @apply flex items-center gap-4 pl-4 py-2 pr-10 mb-4 opacity-60 cursor-pointer hover:opacity-100
+    }
     .limitLine {
         display: -webkit-box;
         -webkit-line-clamp: 3;

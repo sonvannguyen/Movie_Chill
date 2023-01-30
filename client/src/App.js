@@ -7,8 +7,8 @@ function App() {
   return (
     <div className="App bg-[#1c1c1e] text-white">
       {/* <Home/> */}
-      {/* <MovieDetail/> */}
-      <Watch/>
+      <MovieDetail/>
+      {/* <Watch/> */}
     </div>
   );
 }

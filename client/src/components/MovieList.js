@@ -1,10 +1,9 @@
-import Header from "./Header";
 import SliderBanner from "./SliderBanner";
 import MovieGroup from "./MovieGroup";
 
 const MovieList = () => {
     return ( 
-        <div className="px-5 border-x-[0.5px] border-[rgba(255,255,255,0.14)]">
+        <div>
             <div className="h-96 overflow-hidden">
                 <SliderBanner/>
             </div>
