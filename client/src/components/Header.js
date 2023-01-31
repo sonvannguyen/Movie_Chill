@@ -86,7 +86,7 @@ const Header = () => {
             </div>
             <div className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 '>
                 <AiOutlineUser/>
-                <span>Account</span>
+                <span>Đăng nhập</span>
             </div>
         </div>
      );

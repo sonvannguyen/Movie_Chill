@@ -1,6 +1,7 @@
 import { BsPlayCircle } from "react-icons/bs";
+import {RiDeleteBack2Line} from 'react-icons/ri'
 
-const MovieItem = () => {
+const MovieItem = ({inPageEdit}) => {
     return ( 
         <div>
             <div className="relative group" >
@@ -14,6 +15,12 @@ const MovieItem = () => {
                 <div className="hidden group-hover:flex absolute top-0 bottom-0 left-0 right-0 items-center justify-center cursor-pointer">
                     <BsPlayCircle size={40} className='items-center text-white'/>
                 </div>
+                {
+                    inPageEdit &&
+                    <div className="hidden group-hover:flex absolute top-0 right-0 p-2 bg-zinc-700 cursor-pointer hover:bg-red-500">
+                        <RiDeleteBack2Line size={22}/>
+                    </div>
+                }
             </div>
             <h3 className='text-lg font-bold cursor-pointer opacity-90'>Cheer up</h3>
             <h4 className='cursor-pointer opacity-60'>Vũ điệu tuổi trẻ</h4>
