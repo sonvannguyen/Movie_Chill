@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {BiHide , BiShow} from 'react-icons/bi'
 import auth_banner from "../assets/images/auth_banner.jpg";
 import logo from "../assets/images/logo.png";
@@ -18,11 +19,13 @@ const SignIn = () => {
     <div className="h-screen relative">
       <img src={auth_banner} className="w-screen h-screen" alt="auth banner" />
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"></div>
-      <img
-        src={logo}
-        className="absolute top-0 left-12 w-52 cursor-pointer "
-        alt="logo"
-      />
+      <Link to='/'>
+        <img
+          src={logo}
+          className="absolute top-0 left-12 w-52 cursor-pointer "
+          alt="logo"
+        />
+      </Link>
 
       <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[400px] bg-[#000000bc] p-10">
         <h3 className="text-4xl font-bold">Sign In</h3>
@@ -66,8 +69,10 @@ const SignIn = () => {
         </div>
 
         <button className="w-full bg-red-600 py-3 rounded-lg mt-6 font-bold hover:bg-red-500">Sign in</button>
-        <h4 className="mt-8 mb-2 text-center">Don't have an account?</h4>
-        <button className="tag-primary block my-0 mx-auto font-bold">Sign up here</button>
+        <div className='flex flex-col items-center'>
+          <h4 className="mt-8 ">Don't have an account?</h4>
+          <Link to='/register' className="underline text-red-400 p-2 font-bold">Sign up here</Link>
+        </div>
       </div>
     </div>
   );

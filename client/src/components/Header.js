@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {AiOutlineCaretDown, AiOutlineUser} from 'react-icons/ai'
 
 const categoryData = [
@@ -84,10 +85,10 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 '>
+            <Link to='/login' className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 '>
                 <AiOutlineUser/>
                 <span>Đăng nhập</span>
-            </div>
+            </Link>
         </div>
      );
 }

@@ -4,7 +4,7 @@ const Footer = () => {
     return ( 
         <div className=' mt-12 pt-3 '>
             <div className='w-60 h-1 mb-3 bg-red-400 opacity-60 rounded-xl my-0 mx-auto'></div>
-            <div className='flex px-24 pt-4 justify-between items-center gap-5 bg-zinc-800'>
+            <div className='flex px-24 pt-4 justify-between items-center gap-5 bg-[#27272a9c]'>
                 <img src={logo} alt="logo" className='w-24 ml-4' />
                 <p className='text-gray-200 italic'>
                     Website chỉ nhằm phục vụ nhu cầu học tập, không có tính thương mại. 
@@ -12,7 +12,7 @@ const Footer = () => {
 
                 </p>
             </div>
-            <h4 className='text-center italic text-sm py-2 text-gray-400 bg-zinc-800'>Developed by sonvng &hearts;</h4>
+            <h4 className='text-center italic text-sm py-2 text-gray-400 bg-[#27272a9c]'>Developed by sonvng &hearts;</h4>
         </div>
      );
 }

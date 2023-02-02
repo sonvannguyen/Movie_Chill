@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SidebarSuggestions from "../components/SidebarSuggestions";
 import MovieItem from "../components/MovieItem";
-import {BsSearch} from 'react-icons/bs'
 import {BiFilterAlt} from 'react-icons/bi'
 
 
@@ -20,7 +19,7 @@ const categoryData = [
     "Kinh Dị"
 ]
 
-const FilterAndSearchMovie = () => {
+const FilterMovie = () => {
     return ( 
         <div className="grid grid-cols-5 gap-6">
             <div className="col-start-1 col-end-2 h-screen">
@@ -29,14 +28,7 @@ const FilterAndSearchMovie = () => {
             <div className="col-start-2 col-span-3 overflow-y-scroll no-scrollbar h-screen">
                 <Header/>
 
-                <h2 className="inline-block text-2xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">Search Movie</h2>
-                <div className='relative flex gap-3 pl-10 pr-24'>
-                    <BsSearch className='absolute top-4 left-14 cursor-pointer'/>
-                    <input type="text" placeholder='Enter movie name...' className='bg-zinc-800 w-full outline-none py-3 pl-11 rounded-2xl placeholder-gray-400 placeholder-opacity-75' />
-                    <button className="px-3 text-lg rounded-xl border-[1px] border-[rgba(255,255,255,0.27)] hover:bg-red-500">Search</button>
-                </div>
-
-                <h2 className="inline-block text-2xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
+                <h2 className="inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
                     Filter Movie
                 </h2>
                 <div className="flex justify-between mb-6">
@@ -99,4 +91,4 @@ const FilterAndSearchMovie = () => {
      );
 }
  
-export default FilterAndSearchMovie;
+export default FilterMovie;

@@ -1,5 +1,7 @@
 import SliderBanner from "./SliderBanner";
 import MovieGroup from "./MovieGroup";
+import {BiWorld, BiTrendingUp} from 'react-icons/bi'
+import {AiFillStar} from 'react-icons/ai'
 
 const MovieList = () => {
     return ( 
@@ -8,9 +10,9 @@ const MovieList = () => {
                 <SliderBanner/>
             </div>
             <div className="mt-4">
-                <MovieGroup movieGroupName="Popular"/>
-                <MovieGroup movieGroupName="Top Rated"/>
-                <MovieGroup movieGroupName="Trending"/>
+                <MovieGroup movieGroupName="Trending" icon={<BiTrendingUp size={20}/>}/>
+                <MovieGroup movieGroupName="Top Rated" icon={<AiFillStar size={20}/>}/>
+                <MovieGroup movieGroupName="Popular" icon={<BiWorld size={20}/>}/>
             </div>
         </div>
      );
