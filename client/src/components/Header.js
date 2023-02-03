@@ -85,7 +85,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <Link to='/login' className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 '>
+            <Link to='/login' className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
                 <AiOutlineUser/>
                 <span>Đăng nhập</span>
             </Link>

@@ -2,8 +2,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SidebarSuggestions from "../components/SidebarSuggestions";
-import MovieItem from "../components/MovieItem";
 import {BiFilterAlt} from 'react-icons/bi'
+import gif_wait from '../assets/images/gif_wait.gif'
 
 
 const categoryData = [
@@ -61,6 +61,9 @@ const FilterMovie = () => {
                         <label htmlFor="nam">Năm Sx:</label>
                         <select id="nam" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md">
                             <option value="2022" className="">2022</option>
+                            <option value="2023" className="">2023</option>
+                            <option value="2021" className="">2021</option>
+
                         </select>
                     </div>
                 </div>
@@ -70,18 +73,11 @@ const FilterMovie = () => {
                     <span>Lọc Phim</span>
                 </button>
 
-                <div className="flex gap-5 mt-10">
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
+                <div>
+                    <img src= {gif_wait} alt="gif wait" className="w-64 mx-auto" />
+                    <h4 className="text-center italic opacity-80 mt-[-26px]">Lọc phim theo sở thích và xem ngay với MovieChill &hearts;</h4>
                 </div>
-                <div className="flex gap-5 mt-10">
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
-                </div>
+
                 <Footer/>
             </div>
             <div className="col-span-1">

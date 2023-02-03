@@ -1,7 +1,20 @@
+import { useQuery } from 'react-query'
+import movieApi from '../services/movieApi'
 import MovieItemSuggestion from './MovieItemSuggestion'
 import {BsSearch} from 'react-icons/bs'
 
+
 const SidebarSuggestions = () => {
+
+    const {data: moviesData} = useQuery(
+        ['moviesGroupSuggestion'], 
+        () => movieApi.getMoviesByGroupName("Suggestions"), 
+        {
+            staleTime: 5 * 60 * 1000,
+            cacheTime: 10 * 1000 * 60
+        }
+    )
+
     return ( 
         <div className='relative px-3 overflow-y-scroll no-scrollbar h-screen'>
             <div className='py-5 sticky top-0 z-10 bg-[#1c1c1e]'>
@@ -16,14 +29,9 @@ const SidebarSuggestions = () => {
             </div>
 
             <div className='relative z-0'>
-                <MovieItemSuggestion/>
-                <MovieItemSuggestion/>
-                <MovieItemSuggestion/>
-                <MovieItemSuggestion/>
-                <MovieItemSuggestion/>
-                <MovieItemSuggestion/>
-                <MovieItemSuggestion/>
-                <MovieItemSuggestion/>
+                {moviesData?.map(movie => (
+                    <MovieItemSuggestion key={movie._id} movieData={movie} />
+                ))}
             </div>
 
         </div>

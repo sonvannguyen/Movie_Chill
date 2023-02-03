@@ -21,9 +21,15 @@
     .menu-item-active {
         @apply border-l-[1px] border-red-400 text-red-400 opacity-100
     }
-    .limitLine {
+    .limit3Lines {
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+    .limitALine {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;  
         overflow: hidden;
     }

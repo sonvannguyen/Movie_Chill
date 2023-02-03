@@ -1,18 +1,37 @@
+import {useQuery} from 'react-query'
 import SliderBanner from "./SliderBanner";
 import MovieGroup from "./MovieGroup";
 import {BiWorld, BiTrendingUp} from 'react-icons/bi'
-import {AiFillStar} from 'react-icons/ai'
+import movieApi from '../services/movieApi';
+
 
 const MovieList = () => {
+    const {data: moviesGroupData} = useQuery(
+        ['moviesGroup'], 
+        movieApi.getMoviesInGroup, 
+        {
+            staleTime: 5 * 60 * 1000,
+            cacheTime: 10 * 1000 * 60
+        }
+    )
+
     return ( 
         <div>
             <div className="h-96 overflow-hidden">
                 <SliderBanner/>
             </div>
             <div className="mt-4">
-                <MovieGroup movieGroupName="Trending" icon={<BiTrendingUp size={20}/>}/>
-                <MovieGroup movieGroupName="Top Rated" icon={<AiFillStar size={20}/>}/>
-                <MovieGroup movieGroupName="Popular" icon={<BiWorld size={20}/>}/>
+                {
+                    moviesGroupData?.map(movieGroup => (
+                        <MovieGroup 
+                            movieGroupName={movieGroup?.groupName} 
+                            icon={<BiTrendingUp size={20}/>} 
+                            moviesdata={movieGroup?.movieList}
+                            key={movieGroup?._id}
+                        />
+                    ))
+                }
+             
             </div>
         </div>
      );

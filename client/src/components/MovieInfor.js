@@ -1,106 +1,61 @@
+import { Link } from 'react-router-dom';
 import {BsBookmarkHeart, BsPlayBtn} from 'react-icons/bs'
 import {IoMdShareAlt} from 'react-icons/io'
 import { CircularProgressbar, buildStyles  } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const movieData = {
-    "name": "Sự Trả Thù Của Người Thứ 3",
-"origin_name": "Revenge of Others",
-"content": "<p>Một cậu bé rơi xuống chết ở trường, nhưng Ok Chanmi không tin rằng anh trai sinh đôi của cô, Park Wonseok, đã tự tử. Chanmi chuyển đến trường của anh trai cô, Yongtan High, và gặp Ji Sooheon, người đã chứng kiến ​​cái chết của anh trai cô.</p>",
-"type": "series",
-"status": "completed",
-"thumb_url": "http://img.ophim1.cc/uploads/movies/su-tra-thu-cua-nguoi-thu-3-thumb.jpg",
-"poster_url": "http://img.ophim1.cc/uploads/movies/su-tra-thu-cua-nguoi-thu-3-poster.jpg",
-"is_copyright": "off",
-"sub_docquyen": "off",
-"chieurap": false,
-"trailer_url": "",
-"time": "60 phút/tập",
-"episode_current": "Hoàn Tất (12/12)",
-"episode_total": "12 Tập",
-"quality": "HD",
-"lang": "Vietsub",
-"notify": "",
-"showtimes": "",
-"slug": "su-tra-thu-cua-nguoi-thu-3",
-"year": 2022,
-"actor": [
-"Kim Yoo-Jin",
-"Lomon",
-"Seo Ji-Hoon",
-"Chae Sang-Woo",
-"Lee Soo-Min",
-"Chung Su-Bin",
-"Kim Joo-Ryung",
-"Woo Yeon"
-],
-"director": [
-"Kim Yoo-Jin"
-],
-"category": [
-{
-"name": "Chính kịch"
-}
-],
-"country": [
-{
-"name": "Hàn Quốc"
-}
-]
-}
 
-const movieInforTemplate = [
-    {
-        title: "Type : ",
-        value: movieData["type"]
-    },
-    {
-        title: "Time : ",
-        value: movieData["time"]
-    },
-    {
-        title: "Trạng thái : ",
-        value: movieData["status"]
-    },
-    {
-        title: "Thể loại : ",
-        value: movieData["category"][0]["name"]
-    },
-    {
-        title: "Quốc gia : ",
-        value: movieData["country"][0]["name"]
-    },
-    {
-        title: "Năm phát hành : ",
-        value: movieData["year"]
-    },
-]
-
-const MovieInfor = () => {
+const MovieInfor = ({movieDetailData}) => {
+    const movieInforTemplate = [
+        {
+            title: "Type : ",
+            value: movieDetailData?.type
+        },
+        {
+            title: "Time : ",
+            value: movieDetailData?.time
+        },
+        {
+            title: "Trạng thái : ",
+            value: movieDetailData?.status
+        },
+        {
+            title: "Thể loại : ",
+            value: movieDetailData?.category[0].name
+        },
+        {
+            title: "Quốc gia : ",
+            value: movieDetailData?.country[0].name
+        },
+        {
+            title: "Năm phát hành : ",
+            value: movieDetailData?.year
+        }
+    ]
     return (  
         <div>
             {/* Banner */}
             <div>
                 <div className="relative h-[440px]">
                     <img 
-                        src={movieData["poster_url"] || movieData["thumb_url"]} 
+                        src={movieDetailData?.poster_url || movieDetailData?.thumb_url} 
                         className='h-full w-full object-cover ' 
                         alt="poster img" 
                     />
                     <div className='absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.12)]'></div>
 
                     <img 
-                        src={movieData["thumb_url"]} 
+                        src={movieDetailData?.thumb_url} 
                         className='absolute z-10 bottom-[-30px] w-[170px] rounded-md shadow-primary' 
                         alt="thumb img" 
                     />
 
                     <div className="absolute top-3 left-3 ">
                         <span className="bg-black p-1 text-xs shadow-primary">
-                            {`${movieData["quality"]} -  ${movieData["lang"]}`}
+                            {`${movieDetailData?.quality} -  ${movieDetailData?.lang}`}
                         </span>
                         <h5 className="bg-red-700 p-1 mt-[2px] text-sm uppercase shadow-primary">
-                            Tổng số tập: {movieData["episode_total"]}
+                            Tổng số tập: {movieDetailData?.episode_total}
                         </h5>
                     </div>
 
@@ -118,13 +73,13 @@ const MovieInfor = () => {
                         className='absolute flex justify-between items-center bottom-0 left-0 right-0 pl-[200px] pr-[24px] py-5 bg-[rgba(0,0,0,0.73)]'
                     >
                         <div className='w-[328px]'>
-                            <h3 className='text-3xl font-bold'>{movieData["origin_name"]}</h3>
-                            <h4 className='text-lg mt-3 text-gray-300'>{`( ${movieData["name"]} )`}</h4>
+                            <h3 className='text-3xl font-bold'>{movieDetailData?.origin_name}</h3>
+                            <h4 className='text-lg mt-3 text-gray-300'>{`( ${movieDetailData?.name} )`}</h4>
                         </div>
-                        <div className='flex items-center w-[10rem] h-[50px] gap-2 bg-red-700 p-3 rounded-xl cursor-pointer hover:bg-gray-600'>
+                        <Link to= {`/watch/${movieDetailData?.slug}/1`} className='flex items-center w-[10rem] h-[50px] gap-2 bg-red-700 p-3 rounded-xl cursor-pointer hover:bg-gray-600'>
                             <BsPlayBtn fontSize={30}/>
                             <span>WATCH NOW</span>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -162,12 +117,12 @@ const MovieInfor = () => {
                 <div className='col-span-2 ml-16'>
                     <div className='mb-1'> 
                         <span className='font-bold opacity-86'>Đạo diễn : </span> 
-                        <span className='opacity-70 italic'>{movieData["director"]}</span>
+                        <span className='opacity-70 italic'>{movieDetailData?.director}</span>
                     </div>
                     <span className='font-bold opacity-86'>Diễn viên : </span>
                     
                     {
-                        movieData["actor"].map((actor, index) => (
+                        movieDetailData?.actor.map((actor, index) => (
                             <span key={index} className='opacity-70 italic text-sm '>{actor} ,</span>
                         ) )
                     }
@@ -176,7 +131,7 @@ const MovieInfor = () => {
 
             <div className='mt-4'>
                 <span className='font-bold text-xl uppercase'>Nội dung :</span>
-                <p dangerouslySetInnerHTML={{ __html: movieData["content"] }} className='mt-3 px-4 mb-[200px] italic opacity-70'></p>
+                <p dangerouslySetInnerHTML={{ __html: movieDetailData?.content }} className='mt-3 px-4 mb-[200px] italic opacity-70'></p>
             </div>
            
         </div>

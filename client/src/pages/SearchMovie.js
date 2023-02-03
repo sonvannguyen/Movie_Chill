@@ -2,8 +2,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SidebarSuggestions from "../components/SidebarSuggestions";
-import MovieItem from "../components/MovieItem";
 import {BsSearch} from 'react-icons/bs'
+import film_animation from '../assets/images/film_animation.gif'
 
 
 const SearchMovie = () => {
@@ -21,19 +21,12 @@ const SearchMovie = () => {
                     <input type="text" placeholder='Enter movie name...' className='bg-zinc-800 w-full outline-none py-3 pl-11 rounded-2xl placeholder-gray-400 placeholder-opacity-75' />
                     <button className="px-3 text-lg rounded-xl border-[1px] border-[rgba(255,255,255,0.27)] hover:bg-red-500">Search</button>
                 </div>
-             
-                <div className="flex gap-5 mt-10">
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
+
+                <div>
+                    <img src= {film_animation} alt="gif wait" className="w-44 mt-8 mx-auto" />
+                    <h4 className="text-center italic opacity-80 mt-3">Tìm kiếm phim và xem ngay với MovieChill &hearts;</h4>
                 </div>
-                <div className="flex gap-5 mt-10">
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
-                    <MovieItem/>
-                </div>
+                
                 <Footer/>
             </div>
             <div className="col-span-1">

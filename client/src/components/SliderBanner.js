@@ -230,11 +230,12 @@ const SliderBanner = () => {
                                     <BiMessageDetail size={20}/>
                                     <span>Nội dung: </span>
                                 </div>
-                                <p dangerouslySetInnerHTML={{ __html: movieData["content"] }} className='mt-1 px-4 mb-[200px] italic opacity-80 limitLine'></p>
+                                <p dangerouslySetInnerHTML={{ __html: movieData["content"] }} className='mt-1 px-4 mb-[200px] italic opacity-80 limit3Lines'></p>
                             </div>
                            
-                            <div className='hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] group-hover:block transition duration-500 ease-in-out'>
+                            <div className='absolute flex flex-col items-center top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]'>
                                 <FaPlay size={50}/>
+                                <h4 className='hidden group-hover:block mt-2 font-bold  '>PLAY NOW</h4>
                             </div>
                         </div>
                     </SwiperSlide>
