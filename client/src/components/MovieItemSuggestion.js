@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazy-load';
+
 import {FaPlay} from 'react-icons/fa';
 
 
@@ -6,11 +8,15 @@ const MovieItemSuggestion = ({movieData}) => {
     return ( 
         <Link to={`/detail/${movieData?.slug}`} className="mb-5 flex gap-5 cursor-pointer group hover:bg-zinc-700 transition duration-200 ease-in-out rounded-md">
             <div className="relative">
-                <img
-                    src={`https://img.hiephanhthienha.com${movieData?.thumb_url}`} 
-                    alt="movie thumb" 
-                    className="max-w-[80px] h-full object-cover opacity-90 group-hover:opacity-60 rounded-md"
-                />
+
+                <LazyLoad LazyLoad height={120} className='LazyLoad ' >
+                    <img
+                        src={`https://img.hiephanhthienha.com${movieData?.thumb_url}`} 
+                        alt="movie thumb" 
+                        className="is-visible max-w-[80px] h-full object-cover opacity-90 group-hover:opacity-60 rounded-md"
+                    />
+                </LazyLoad>
+
                 <div className='hidden group-hover:block absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]'>
                     <FaPlay/>
                 </div>

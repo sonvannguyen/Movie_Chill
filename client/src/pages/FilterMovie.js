@@ -1,9 +1,16 @@
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams, useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
+import ReactPaginate from 'react-paginate';
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SidebarSuggestions from "../components/SidebarSuggestions";
 import {BiFilterAlt} from 'react-icons/bi'
 import gif_wait from '../assets/images/gif_wait.gif'
+import movieApi from "../services/movieApi";
+import MovieItem from "../components/MovieItem";
 
 
 const categoryData = [
@@ -20,6 +27,63 @@ const categoryData = [
 ]
 
 const FilterMovie = () => {
+    const titleRef = useRef(null)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [currentPage, setCurrentPage]= useState(searchParams.get('page') || 1)
+    const {search} = useLocation()
+    
+    const [filter, setFilter] = useState({
+        type: searchParams.get('type') || '',
+        category: searchParams.get('category') || '',
+        country: searchParams.get('country') || '',
+        year:  searchParams.get('year') || '',
+        page: searchParams.get('page') || 1
+    })
+   
+    const handleOnChangeSelect = ({field, value}) => {
+        setFilter({
+            ...filter,
+            [field]: value,
+            page: 1
+        })
+        setCurrentPage(1)
+    }
+
+    useEffect(()=> {
+        setSearchParams(filter)
+    }, [filter])
+
+    const {data: filterResult, refetch} = useQuery(
+        ['filter', filter, currentPage] ,
+        () => movieApi.filterMovie({search, page: currentPage}),
+        {
+            staleTime: 3 * 60 * 1000,
+            enabled: false,
+            keepPreviousData: true
+        }
+    )
+
+    const handleFilterMovie = () => {
+        if(search){
+            refetch()
+        }
+    }
+    
+    const handlePageClick = (data) => {
+        titleRef?.current.scrollIntoView({ behavior: 'smooth' })
+        setCurrentPage(data.selected + 1)
+        setFilter({
+            ...filter,
+            page: data.selected + 1
+        })
+    }
+    
+    useEffect(() => {
+        if(search){
+            refetch()
+        }
+    }, [currentPage])
+
     return ( 
         <div className="grid grid-cols-5 gap-6">
             <div className="col-start-1 col-end-2 h-screen">
@@ -28,20 +92,30 @@ const FilterMovie = () => {
             <div className="col-start-2 col-span-3 overflow-y-scroll no-scrollbar h-screen">
                 <Header/>
 
-                <h2 className="inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
+                <h2 ref={titleRef} className="inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
                     Filter Movie
                 </h2>
                 <div className="flex justify-between mb-6">
                     <div>
                         <label htmlFor="type">Type:</label>
-                        <select id="type" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md">
-                            <option value="phimbo" className="">Phim bộ</option>
-                            <option value="phimle">Phim lẻ</option>
+                        <select
+                             id="type" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
+                             onChange={(e) => handleOnChangeSelect({field: "type", value: e.target.value})}
+                             defaultValue=""
+                        >
+                            <option value="" disabled hidden>Chọn</option>
+                            <option value="series" className="">Phim bộ</option>
+                            <option value="single">Phim lẻ</option>
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="the_loai">Thể loại:</label>
-                        <select id="the_loai" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md">
+                        <label htmlFor="category">Thể loại:</label>
+                        <select
+                             id="category" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
+                             onChange={(e) => handleOnChangeSelect({field: "category", value: e.target.value})}
+                             defaultValue=""
+                         >
+                            <option value="" disabled hidden>Chọn</option>
                             {
                                 categoryData.map((category, index) => (
                                     <option value={category} key={index} className="">{category}</option>
@@ -50,16 +124,26 @@ const FilterMovie = () => {
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="quoc_gia">Quốc gia:</label>
-                        <select id="quoc_gia" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md">
+                        <label htmlFor="country">Quốc gia:</label>
+                        <select
+                             id="country" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
+                             onChange={(e) => handleOnChangeSelect({field: "country", value: e.target.value})}
+                             defaultValue=""
+                        >
+                            <option value="" disabled hidden>Chọn</option>
                             <option value="Âu Mỹ" className="">Âu Mỹ</option>
                             <option value="Hàn Quốc" className="">Hàn Quốc</option>
                             <option value="Trung Quốc" className="">Trung Quốc</option>
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="nam">Năm Sx:</label>
-                        <select id="nam" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md">
+                        <label htmlFor="year">Năm Sx:</label>
+                        <select
+                             id="year" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
+                             onChange={(e) => handleOnChangeSelect({field: "year", value: e.target.value})}
+                             defaultValue=""
+                        >
+                            <option value="" disabled hidden>Chọn</option>
                             <option value="2022" className="">2022</option>
                             <option value="2023" className="">2023</option>
                             <option value="2021" className="">2021</option>
@@ -68,15 +152,72 @@ const FilterMovie = () => {
                     </div>
                 </div>
 
-                <button className="flex items-center my-0 mx-auto py-2 px-5 text-lg rounded-xl bg-red-500 hover:bg-red-600 ">
+                <button 
+                    onClick={handleFilterMovie}
+                    className="flex items-center my-0 mx-auto py-2 px-5 text-lg rounded-xl bg-red-500 hover:bg-red-600 "
+                >
                     <BiFilterAlt size={18} className='mr-2'/>
                     <span>Lọc Phim</span>
                 </button>
 
-                <div>
-                    <img src= {gif_wait} alt="gif wait" className="w-64 mx-auto" />
-                    <h4 className="text-center italic opacity-80 mt-[-26px]">Lọc phim theo sở thích và xem ngay với MovieChill &hearts;</h4>
-                </div>
+                
+
+                {/* trường hợp có phim trả về sau khi filter */}
+                {
+                    filterResult && (
+                        <h4 className='text-xl font-bold mt-6 italic'>
+                            {`Có ${filterResult?.totalMovies || 0 } kết quả phù hợp :`}
+                        </h4>
+                    )
+                }
+
+                {
+                    filterResult?.totalMovies > 0 &&
+                    (
+                        <div className='grid grid-cols-4 gap-6 mt-7'>
+                            {
+                                filterResult?.moviesData?.map(movie => (
+                                    <MovieItem key={movie._id} movieData={movie}/>
+                                ))
+                            }
+                            
+                        </div>
+                    )
+                }
+
+                {
+                    filterResult?.totalMovies > 0 && (
+                        <div className='flex items-center justify-center'>
+                            <ReactPaginate
+                                previousLabel={'<'}
+                                nextLabel={'>'}
+                                breakLabel={'...'}
+                                breakClassName={'p-2'}
+                                forcePage={currentPage-1}
+                                pageCount={filterResult?.totalPage}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={3}
+                                onPageChange={handlePageClick}
+                                containerClassName={'flex gap-2 mt-10'}
+                                pageLinkClassName={'py-3 px-5 bg-zinc-700 rounded-md'}
+                                nextLinkClassName={'py-3 px-5 bg-zinc-700 rounded-md'}
+                                previousLinkClassName={'py-3 px-5 bg-zinc-700 rounded-md'}
+                                activeLinkClassName={'py-3 px-5 bg-red-500 rounded-md'}
+                            />
+                        </div>
+                    )
+                }
+
+                {/* // Trường hợp không có kết quả filter*/}
+                                
+                {
+                    !(filterResult?.totalMovies > 0) && (
+                        <div>
+                            <img src= {gif_wait} alt="gif wait" className="w-64 mx-auto" />
+                            <h4 className="text-center italic opacity-80 mt-[-26px]">Lọc phim theo sở thích và xem ngay với MovieChill &hearts;</h4>
+                        </div>
+                    )
+                }
 
                 <Footer/>
             </div>

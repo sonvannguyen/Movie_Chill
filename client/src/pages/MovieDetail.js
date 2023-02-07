@@ -7,7 +7,7 @@ import movieApi from "../services/movieApi";
 
 const MovieDetail = () => {
   const {movieSlug} = useParams()
-  const {data: movieDetailData} = useQuery(
+  const {data: movieDetailData, isLoading} = useQuery(
     ['movieDetail', movieSlug],
     () => movieApi.getMovieDetail(movieSlug),
     {
@@ -15,7 +15,7 @@ const MovieDetail = () => {
     }
   )
   return (
-    <Template children={<MovieInfor movieDetailData={movieDetailData?.movie} />}/>
+    <Template children={<MovieInfor movieDetailData={movieDetailData?.movie}  isLoading={isLoading}/>}/>
   );
 };
 

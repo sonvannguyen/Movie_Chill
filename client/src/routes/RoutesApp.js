@@ -20,6 +20,7 @@ const RoutesApp = () => {
 
             <Route path="filter" element={<FilterMovie/>}/>
             <Route path="search" element={<SearchMovie/>}/>
+
             <Route path="login" element={<SignIn/>}/>
             <Route path="register" element={<SignUp/>}/>
 
