@@ -8,5 +8,6 @@ router.get('/filter', movieController.filterMoviesByMultiField)
 router.post('/create', movieController.createMovie)
 router.put('/update/:movieId', movieController.updateMovie)
 router.delete('/delete/:movieId', movieController.deleteMovie)
+// router.post('/updateAll', movieController.updateAllMovies)
 
 module.exports = router

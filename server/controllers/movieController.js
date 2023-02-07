@@ -65,6 +65,7 @@ const movieController = {
             next(error)
         }
     },
+    
     deleteMovie: async (req, res, next) => {
         try {
             const {movieId} = req.params
@@ -111,7 +112,7 @@ const movieController = {
         try {
             const {movieName } = req.query
             const page = parseInt(req.query.page) || 1
-            const moviePerPage = parseInt(req.query.limit) || 6
+            const moviePerPage = parseInt(req.query.limit) || 12
 
             const query = {
                 $or: [
@@ -163,7 +164,7 @@ const movieController = {
         // country: Hàn Quốc || Trung Quốc || Âu Mỹ
         // category: Hành Động || Tình Cảm || Hài Hước.....
         try {
-            const {category, type, country} = req.query 
+            const {category, type, country, year} = req.query 
             let query = {}
             if(category){
                 query.category = category
@@ -174,7 +175,10 @@ const movieController = {
             if(country){
                 query.country = country
             }
-
+            if(year){
+                query.year = year
+            }
+            
             const page = parseInt(req.query.page) || 1
             const moviesPerPage = parseInt(req.query.limit) || 12
 
@@ -186,6 +190,7 @@ const movieController = {
             .limit(moviesPerPage)
 
             return res.json({
+                totalMovies,
                 totalPage,
                 currentPage: page,
                 moviesPerPage,

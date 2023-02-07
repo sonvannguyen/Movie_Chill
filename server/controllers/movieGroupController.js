@@ -1,18 +1,13 @@
 const MovieGroupModel = require('../models/MovieGroup')
 
 const movieGroupController = {
-    getAllGroupName: async(req, res, next) => {
+    getAllGroup: async(req, res, next) => {
         try {
-            const listMovieGroup = await MovieGroupModel.find({})
-            let listGroupName = []
+            const dataMoviesGroup = await MovieGroupModel.find({})
+            .populate({path: 'movieList', select: 'name origin_name thumb_url slug type category'})
 
-            listMovieGroup.map((group) => {
-                listGroupName.push(group.groupName)
-            })
-
-            return res.json({
-                listGroupName
-            })
+          res.setHeader("Set-Cookie", "sessionId=123; SameSite=None; Secure=True");
+            return res.json(dataMoviesGroup)
         } catch (error) {
             next(error)
         }
@@ -48,12 +43,12 @@ const movieGroupController = {
         try {
             const {groupName} = req.params 
             const movieGroup = await MovieGroupModel.findOne({groupName}).populate({path: 'movieList'})
-
+            if(!movieGroup){
+                return res.json('Không có group movie nào phù hợp')
+            }
+            
             const moviesData = movieGroup.movieList
-
-            return res.json({
-                moviesData
-            })
+            return res.json(moviesData)
 
         } catch (error) {
             next(error)

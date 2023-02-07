@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const movieGroupController = require('../controllers/movieGroupController')
 
-router.get('/', movieGroupController.getAllGroupName)
+router.get('/', movieGroupController.getAllGroup)
 router.post('/create', movieGroupController.createNewMovieGroup)
 router.post('/addMovie', movieGroupController.addMovieToMovieGroup)
 router.get('/:groupName', movieGroupController.getMoviesInMovieGroup)
