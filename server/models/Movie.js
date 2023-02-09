@@ -43,7 +43,18 @@ const MovieSchema = new Schema({
         {
             type: String,
         }
-    ]
+    ],
+    comments: [
+        {   
+            userComment: {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            },
+            commentContent: {
+                type: String
+            }
+        }
+    ],
 })
 
 const MovieModel = mongoose.model('Movie', MovieSchema)

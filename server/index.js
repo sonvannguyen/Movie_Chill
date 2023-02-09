@@ -1,12 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const bodyParser = require('body-parser')
 require('dotenv').config()
 
 express.json()
 const app = express();
 app.use(cors())
 app.use(express.urlencoded({extended:false}))
+app.use(bodyParser.json());
+
 mongoose.set('strictQuery', false)
 
 const connectDB = async() => {
@@ -22,6 +25,15 @@ const connectDB = async() => {
 }
 
 connectDB()
+
+// routes
+const movieRoute = require('./routes/movieRoute')
+const movieGroupRoute = require('./routes/movieGroupRoute')
+const userRoute = require('./routes/userRoute')
+
+app.use('/movie', movieRoute)
+app.use('/admin/movieGroup', movieGroupRoute)
+app.use('/user', userRoute)
 
 //404 handler and pass to error handler
 app.use((req, res, next) => {
@@ -39,13 +51,6 @@ app.use((err, req, res, next) => {
   })
 })
 
-
-// routes
-const movieRoute = require('./routes/movieRoute')
-const movieGroupRoute = require('./routes/movieGroupRoute')
-
-app.use('/movie', movieRoute)
-app.use('/admin/movieGroup', movieGroupRoute)
 
 
 app.listen(process.env.PORT || 5000, () => {
