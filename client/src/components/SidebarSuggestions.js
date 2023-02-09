@@ -1,4 +1,6 @@
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
+
 import movieApi from '../services/movieApi'
 import MovieItemSuggestion from './MovieItemSuggestion'
 import {BsSearch} from 'react-icons/bs'
@@ -18,10 +20,10 @@ const SidebarSuggestions = () => {
     return ( 
         <div className='relative px-3 overflow-y-scroll no-scrollbar h-screen'>
             <div className='py-5 sticky top-0 z-10 bg-[#1c1c1e]'>
-                <div className='relative'>
-                    <BsSearch className='absolute top-3 left-3 cursor-pointer'/>
+                <Link to='/search' className='relative'>
+                    <BsSearch className='absolute top-1 left-3 cursor-pointer'/>
                     <input type="text" placeholder='Search movie...' className='bg-zinc-800 outline-none py-2 pl-10 rounded-2xl placeholder-gray-400 placeholder-opacity-75' />
-                </div>
+                </Link>
                 <p className='mt-4 opacity-40 italic'>
                     #avatar2  #wednesday #DoctorStrange #OurBelovedSummer #TrueBeauty
                 </p>

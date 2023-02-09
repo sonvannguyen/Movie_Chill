@@ -6,8 +6,9 @@ import {RiMovieLine} from 'react-icons/ri'
 import MovieGroup from './MovieGroup';
 
 
-const MovieWatch = ({movieData, episode}) => {
+const MovieWatch = ({movieData, episode, movieRecommnedData}) => {
     const topRef = useRef(null)
+    
     let embedUrl = ''
     const listEpisodeData = movieData?.episodes[0].server_data
 
@@ -29,11 +30,11 @@ const MovieWatch = ({movieData, episode}) => {
 
     return ( 
         <>
-            <div className='relative'>
+            <div className='relative mb-8'>
                 <div className='absolute top-[-100px]' ref={topRef}></div>
                 <iframe 
                     src={embedUrl} 
-                    className="w-full h-[430px] "
+                    className="w-full h-[430px]"
                     title={movieData?.movie.name}
                     allow="fullscreen"
                 >
@@ -89,7 +90,7 @@ const MovieWatch = ({movieData, episode}) => {
                 </div>
             </div>
 
-            <MovieGroup movieGroupName="Recommend"/>
+            <MovieGroup movieGroupName="Phim Cùng Thể Loại" moviesdata={movieRecommnedData?.moviesData}/>
         </>
     );
 }

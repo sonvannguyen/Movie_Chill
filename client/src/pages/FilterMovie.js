@@ -101,7 +101,7 @@ const FilterMovie = () => {
                         <select
                              id="type" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
                              onChange={(e) => handleOnChangeSelect({field: "type", value: e.target.value})}
-                             defaultValue=""
+                             defaultValue={searchParams.get('type') || ""}
                         >
                             <option value="" disabled hidden>Chọn</option>
                             <option value="series" className="">Phim bộ</option>
@@ -113,7 +113,7 @@ const FilterMovie = () => {
                         <select
                              id="category" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
                              onChange={(e) => handleOnChangeSelect({field: "category", value: e.target.value})}
-                             defaultValue=""
+                             defaultValue={searchParams.get('category') || ""}
                          >
                             <option value="" disabled hidden>Chọn</option>
                             {
@@ -128,7 +128,7 @@ const FilterMovie = () => {
                         <select
                              id="country" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
                              onChange={(e) => handleOnChangeSelect({field: "country", value: e.target.value})}
-                             defaultValue=""
+                             defaultValue={searchParams.get('country') || ""}
                         >
                             <option value="" disabled hidden>Chọn</option>
                             <option value="Âu Mỹ" className="">Âu Mỹ</option>

@@ -3,9 +3,10 @@ import {BsBookmarkHeart, BsPlayBtn} from 'react-icons/bs'
 import {IoMdShareAlt} from 'react-icons/io'
 import { CircularProgressbar, buildStyles  } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import MovieGroup from './MovieGroup';
 
 
-const MovieInfor = ({movieDetailData, isLoading}) => {
+const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
     const movieInforTemplate = [
         {
             title: "Type : ",
@@ -75,7 +76,7 @@ const MovieInfor = ({movieDetailData, isLoading}) => {
 
                     <div className="absolute top-3 left-3 ">
                         <span className="bg-black p-1 text-xs shadow-primary">
-                            {`${movieDetailData?.quality} -  ${movieDetailData?.lang}`}
+                            HD - Vietsub
                         </span>
                         <h5 className="bg-red-700 p-1 mt-[2px] text-sm uppercase shadow-primary">
                             Tổng số tập: {movieDetailData?.episode_total}
@@ -97,7 +98,7 @@ const MovieInfor = ({movieDetailData, isLoading}) => {
                     >
                         <div className='w-[328px]'>
                             <h3 className='text-3xl font-bold'>{movieDetailData?.origin_name}</h3>
-                            <h4 className='text-lg mt-3 text-gray-300'>{`( ${movieDetailData?.name} )`}</h4>
+                            <h4 className='text-lg mt-3 text-gray-300'>{`( ${movieDetailData?.name || ''} )`}</h4>
                         </div>
                         <Link to= {`/watch/${movieDetailData?.slug}/1`} className='flex items-center w-[10rem] h-[50px] gap-2 bg-red-700 p-3 rounded-xl cursor-pointer hover:bg-gray-600'>
                             <BsPlayBtn fontSize={30}/>
@@ -154,9 +155,11 @@ const MovieInfor = ({movieDetailData, isLoading}) => {
 
             <div className='mt-4'>
                 <span className='font-bold text-xl uppercase'>Nội dung :</span>
-                <p dangerouslySetInnerHTML={{ __html: movieDetailData?.content }} className='mt-3 px-4 mb-[200px] italic opacity-70'></p>
+                <p dangerouslySetInnerHTML={{ __html: movieDetailData?.content }} className='mt-3 px-4 mb-8 italic opacity-70'></p>
             </div>
            
+            <MovieGroup movieGroupName="Phim Cùng Thể Loại" moviesdata={movieRecommnedData?.moviesData}/>
+
         </div>
     );
 }

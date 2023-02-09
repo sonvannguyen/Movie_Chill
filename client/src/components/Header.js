@@ -25,8 +25,8 @@ const Header = () => {
             className='sticky top-0 left-0 right-0 py-4 bg-[#1c1c1e] z-10 flex justify-between items-center border-b-[1px] border-[rgba(255,255,255,0.17)]'
         >
             <div className="flex justify-between gap-3">
-                <div className="tag-primary">Phim Lẻ</div>
-                <div className="tag-primary">Phim Bộ</div>
+                <Link to='/filter?type=single' className="tag-primary">Phim Lẻ</Link>
+                <Link to='/filter?type=series' className="tag-primary">Phim Bộ</Link>
 
                 <div className="relative tag-primary flex items-center gap-2 group">
                     <span>Thể Loại</span>
@@ -37,12 +37,12 @@ const Header = () => {
                                 categoryData.map((category, index) => {
                                     if(index <= 4){
                                         return (
-                                            <h4 
+                                            <Link to={`/filter?category=${category}`} 
                                                 key={index} 
-                                                className='p-2 opacity-80 bg-[#00000016] mb-1 text-center rounded-md hover:bg-red-500 hover:opacity-100 transition duration-300 ease-in-out'
+                                                className='block p-2 opacity-80 bg-[#00000016] mb-1 text-center rounded-md hover:bg-red-500 hover:opacity-100 transition duration-300 ease-in-out'
                                             >
                                                 {category}
-                                            </h4>
+                                            </Link>
                                         )
                                     }
                                 })
@@ -53,12 +53,12 @@ const Header = () => {
                                 categoryData.map((category, index) => {
                                     if(index > 4){
                                         return (
-                                            <h4 
+                                            <Link to={`/filter?category=${category}`}  
                                                 key={index} 
-                                                className='p-2 opacity-80 bg-[#00000016] mb-1 text-center rounded-md hover:bg-red-500 hover:opacity-100 transition duration-300 ease-in-out'
+                                                className='block p-2 opacity-80 bg-[#00000016] mb-1 text-center rounded-md hover:bg-red-500 hover:opacity-100 transition duration-300 ease-in-out'
                                             > 
                                             {category}
-                                            </h4>
+                                            </Link>
                                         )
                                     }
                                 })
@@ -75,9 +75,12 @@ const Header = () => {
                     <div className='hidden group-hover:block absolute top-[50px] right-0 w-[120px] bg-zinc-700 z-20 p-2 rounded-md text-center'>
                         {
                             countryData.map((country, index) => (
-                                <h4 key={index} className='relative z-10 p-2 opacity-80 bg-[#00000016] mb-1 text-center rounded-md hover:bg-red-500 hover:opacity-100 transition duration-300 ease-in-out'>
+                                <Link 
+                                    to={`/filter?country=${country}`} 
+                                    key={index} 
+                                    className='block relative z-10 p-2 opacity-80 bg-[#00000016] mb-1 text-center rounded-md hover:bg-red-500 hover:opacity-100 transition duration-300 ease-in-out'>
                                     {country}
-                                </h4>
+                                </Link>
                             ))
                         }
                         <div className='absolute right-[16px] top-[-6px] w-7 h-7 bg-zinc-700 rotate-45 z-0'></div>

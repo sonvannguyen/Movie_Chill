@@ -40,8 +40,23 @@ const movieApi = {
     },
     filterMovie: async({search, page}) => {
         try {
-            const newSearch = search.replace(/page=\d+/, "page=")
-            const res = await axios.get(`${BASE_URL_MOVIE}/filter${newSearch}${page}`)
+            let res = {}
+            if(search.includes('page=')){
+                const newSearch = search.replace(/page=\d+/, "page=")
+                res = await axios.get(`${BASE_URL_MOVIE}/filter${newSearch}${page}`)
+            }
+            else {
+                res = await axios.get(`${BASE_URL_MOVIE}/filter${search}`)
+            }
+            return res.data
+        } catch (error) {
+            handleError(error)
+        }
+    },
+    getMovieRecommend: async(filter) => {
+        try {
+            const {type, category, country} = filter
+            const res = await axios.get(`${BASE_URL_MOVIE}/filter?type=${type}&category=${category}&country=${country}`)
             return res.data
         } catch (error) {
             handleError(error)
