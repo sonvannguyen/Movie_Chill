@@ -4,6 +4,7 @@ const userController = require('../controllers/userController')
 
 router.post('/login', userController.login)
 router.post('/register', userController.register)
+router.get('/:userId',auth, userController.getUserById)
 
 router.get('/history/:userId',auth, userController.getMoviesFromListMoviesWatched)
 router.post('/add/history', auth, userController.addMovieToListMoviesWatched)

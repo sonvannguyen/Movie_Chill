@@ -17,27 +17,26 @@ const convertToSlug = (movieName) => {
 
 const movieController = {
     // auto create from data json
-    createNewMovie : async (req, res) => {
-        // === create movies from data in file movies.json
-
-        // try {
-        //     fs.readFile(`F:/backend web phim/movies.json`, 'utf8', (err, data) => {
-        //         if (err) {
-        //           console.error(err);
-        //           return;
-        //         }
-        //         const movieData = JSON.parse(data)
-        //         movieData.forEach(async(item, index) => {
-        //             const newMovie = new MovieModel(item)
-        //             await newMovie.save()
-        //             console.log('save ', index)
-        //         })
-        //         console.log('SUCCESS')
-        //     });
+    addMoviesFromFileData : async (req, res) => {
+        // === create movies from data in file moviesData.json
+        try {
+            fs.readFile(`F:/movie/server/moviesData.json`, 'utf8', (err, data) => {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
+                const movieData = JSON.parse(data)
+                movieData.forEach(async(item, index) => {
+                    const newMovie = new MovieModel(item)
+                    await newMovie.save()
+                    console.log('save ', index+1)
+                })
+                console.log('SUCCESS')
+            });
             
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        } catch (error) {
+            console.log(error)
+        }
     },
     
     createMovie: async (req, res, next) => {
@@ -50,6 +49,21 @@ const movieController = {
             await newMovie.save()   
 
             return res.json({newMovie})
+        } catch (error) {
+            next(error)
+        }
+    },
+    getMovieDetail: async (req, res, next) => {
+        try {
+            // handle array category when send many values in body
+            const {slug} = req.params
+            const movieData = await MovieModel.findOne({slug})
+
+            if(!movieData){
+                res.status(404).json('Not found movie')
+            }
+            
+            return res.json(movieData)
         } catch (error) {
             next(error)
         }
@@ -142,7 +156,7 @@ const movieController = {
 
             const totalPages = Math.ceil(totalMovies / moviePerPage)
 
-            const moviesData = await MovieModel.find(query)
+            const moviesData = await MovieModel.find(query).select('_id name origin_name thumb_url slug')
             .skip((moviePerPage * page) - moviePerPage)
             .limit(moviePerPage)
            
@@ -160,9 +174,6 @@ const movieController = {
     },
 
     filterMoviesByMultiField: async (req, res, next) => {
-        // type: series || single
-        // country: Hàn Quốc || Trung Quốc || Âu Mỹ
-        // category: Hành Động || Tình Cảm || Hài Hước.....
         try {
             const {category, type, country, year} = req.query 
             let query = {}
@@ -185,7 +196,7 @@ const movieController = {
             let totalMovies = await MovieModel.find(query).countDocuments()
             let totalPage = Math.ceil(totalMovies / moviesPerPage)
 
-            const moviesData = await MovieModel.find(query)
+            const moviesData = await MovieModel.find(query).select('_id name origin_name thumb_url slug')
             .skip((moviesPerPage * page) - moviesPerPage)
             .limit(moviesPerPage)
 

@@ -52,15 +52,24 @@ const fetchMovie = async (slug) => {
     quality,
     lang,
     category,
+    actor,
+    director,
+    status,
+    time,
+    episode_total,
+    episode_current,
   } = data.movie;
+
+  const {server_data: episodes} = data.episodes[0]
 
   const categoryNames = category.map(({ name }) => name);
 
   // bỏ category 18+
   if (categoryNames.includes("Phim 18+")) return;
 
-  // bỏ phim năm sản xuất khác 2022
-  if(year !== 2022) return;
+  // bỏ phim năm sản xuất khác [2020, 2021,2022,2023]
+  const validYear = [2020, 2021,2022,2023]
+  if(!validYear.includes(year)) return;
 
   // bỏ phim các quốc gia ko phải: Trung Quốc, Hàn Quốc, Âu Mỹ
   const validContry = ["Trung Quốc", "Hàn Quốc", "Âu Mỹ"]
@@ -81,12 +90,19 @@ const fetchMovie = async (slug) => {
     content: content.replace(/<\/*p>/g, ""),
     quality,
     lang,
+    actor,
+    director,
+    status,
+    time,
+    episode_total,
+    episode_current,
     category: categoryNames,
+    episodes
   };
 };
 
 const writeFile = (content) => {
-  fs.appendFileSync("movies.json", JSON.stringify(content));
+  fs.appendFileSync("temp.json", JSON.stringify(content));
 };
 
 const delay = (duration) => {
@@ -97,7 +113,7 @@ const crawl = async (numberOfPages) => {
   let index = 1;
   while (index <= numberOfPages) {
     await getMoviesPerPage(index);
-    await delay(1000);
+    await delay(2000);
     index += 1;
   }
   writeFile(moviesData)
@@ -105,4 +121,4 @@ const crawl = async (numberOfPages) => {
   console.log("Completed!");
 };
 
-crawl(200);
+crawl(26);

@@ -1,1 +1,4 @@
 /node_modules
+/moviesData.json
+/movies.json
+/.env

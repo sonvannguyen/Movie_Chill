@@ -6,7 +6,6 @@ const movieGroupController = {
             const dataMoviesGroup = await MovieGroupModel.find({})
             .populate({path: 'movieList', select: 'name origin_name thumb_url slug type category'})
 
-          res.setHeader("Set-Cookie", "sessionId=123; SameSite=None; Secure=True");
             return res.json(dataMoviesGroup)
         } catch (error) {
             next(error)

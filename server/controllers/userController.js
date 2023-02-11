@@ -60,17 +60,32 @@ const userController = {
             next(createError(500, error.message))
         }
     },
+    getUserById: async(req, res, next) => {
+        try {
+            const {userId} = req.params
+            console.log(req.params)
+            const user = await UserModel.findById(userId).select('-password')
+            if(user){
+                console.log(user)
+                return res.status(200).json({user})
+            }
+            throw createError(404, `Not found user with id ${userId}`)
+
+        } catch (error) {
+            next(createError(500, error.message))
+        }
+    },
     addMovieToListMoviesWatched: async(req, res, next) => {
         try {
             const {userId, movieId} = req.body
             const user = await UserModel.findById(userId)
 
             if(!user){
-                return res.status(400).json('Not found user !')
+                return res.status(404).json('Not found user !')
             }
 
             if(user.moviesWatched.includes(movieId)){
-                return res.status(400).json('Movie already exist !')
+                return res.status(409).json('Movie already exist !')
             }
 
             user.moviesWatched.push(movieId)
@@ -101,7 +116,7 @@ const userController = {
             const user = await UserModel.findById(userId)
 
             if(!user){
-                return res.status(400).json('Not found user')
+                return res.status(404).json('Not found user')
             }
 
             user.moviesWatched = user.moviesWatched.filter(movie => movie != movieId)
@@ -119,7 +134,7 @@ const userController = {
             const user = await UserModel.findById(userId)
 
             if(!user){
-                return res.status(400).json('Not found user')
+                return res.status(404).json('Not found user')
             }
 
             user.moviesWatched = []
@@ -137,11 +152,11 @@ const userController = {
             const user = await UserModel.findById(userId)
 
             if(!user){
-                return res.status(400).json('Not found user !')
+                return res.status(404).json('Not found user !')
             }
 
             if(user.moviesBookmarks.includes(movieId)){
-                return res.status(400).json('Movie already exist !')
+                return res.status(409).json('Movie already exist !')
             }
 
             user.moviesBookmarks.push(movieId)
@@ -160,7 +175,7 @@ const userController = {
                 path: 'moviesBookmarks', 
             })
 
-            return res.status(200).json(moviesData.moviesBookmarks)
+            return res.status(200).json(moviesData.moviesBookmarks.reverse())
 
         } catch (error) {
             next(createError(500, error.message))
@@ -190,7 +205,7 @@ const userController = {
             const user = await UserModel.findById(userId)
 
             if(!user){
-                return res.status(400).json('Not found user')
+                return res.status(404).json('Not found user')
             }
 
             user.moviesBookmarks = []

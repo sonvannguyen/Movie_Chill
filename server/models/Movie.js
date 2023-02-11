@@ -44,6 +44,37 @@ const MovieSchema = new Schema({
             type: String,
         }
     ],
+    actor: [
+        {
+            type: String,
+        }
+    ],
+    director: [
+        {
+            type: String,
+        }
+    ],
+    status: {
+        type: String
+    },
+    time: {
+        type: String
+    },
+    episode_total: {
+        type: String
+    },
+    episode_current: {
+        type: String
+    },
+    episodes: [
+        {
+            name: String,
+            slug: String,
+            filename: String,
+            link_embed: String,
+            link_m3u8: String
+        },
+    ],
     comments: [
         {   
             userComment: {
