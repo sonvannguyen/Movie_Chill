@@ -1,14 +1,24 @@
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link, useNavigate} from 'react-router-dom'
 import {AiOutlineHome, AiOutlineSearch,AiOutlineHistory} from 'react-icons/ai'
 import {BiFilterAlt} from 'react-icons/bi'
 import {BsBookmarkCheck} from 'react-icons/bs'
+import { CiLogout, CiLogin} from 'react-icons/ci'
 
 import logo from '../assets/images/logo.png'
 
 const Sidebar = () => {
+    const navigate = useNavigate()
+    const accessToken = localStorage.getItem('movie_access_token')
     // change class name nav link when active
     const navItem = ({ isActive }) => {
         return isActive ? 'menu-item menu-item-active' : 'menu-item'
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('movie_userId')
+        localStorage.removeItem('movie_access_token')
+        localStorage.removeItem('username')
+        navigate('/login')
     }
 
     return ( 
@@ -45,6 +55,22 @@ const Sidebar = () => {
                         <BsBookmarkCheck size={22}/>
                         <span className='text-lg'>Bookmarked</span>
                     </NavLink>
+
+                    {
+                        accessToken ?
+                        (
+                            <div className='menu-item' onClick={handleLogout}>
+                                <CiLogout size={24}/>
+                                <span className='text-lg'>Log out</span>
+                            </div>
+                        ) :
+                        (
+                            <Link to='/login' className='menu-item'>
+                                <CiLogin size={26}/>
+                                <span className='text-lg'>Log in</span>
+                            </Link>
+                        )
+                    }
                </div>
                
             </div>

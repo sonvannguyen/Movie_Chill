@@ -3,6 +3,8 @@ import Sidebar from "./Sidebar";
 import SidebarSuggestions from "./SidebarSuggestions";
 
 const Template = ({header, children}) => {
+    const userId = localStorage.getItem('movie_userId')
+  
     return ( 
         <div className="grid grid-cols-5 gap-6">
             <div className="col-start-1 col-end-2 h-screen">

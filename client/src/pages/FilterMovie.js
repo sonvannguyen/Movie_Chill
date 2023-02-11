@@ -106,6 +106,7 @@ const FilterMovie = () => {
                             <option value="" disabled hidden>Chọn</option>
                             <option value="series" className="">Phim bộ</option>
                             <option value="single">Phim lẻ</option>
+                            <option value="hoathinh">Hoạt hình</option>
                         </select>
                     </div>
                     <div>
@@ -144,9 +145,10 @@ const FilterMovie = () => {
                              defaultValue=""
                         >
                             <option value="" disabled hidden>Chọn</option>
+                            <option value="2020" className="">2020</option>
+                            <option value="2021" className="">2021</option>
                             <option value="2022" className="">2022</option>
                             <option value="2023" className="">2023</option>
-                            <option value="2021" className="">2021</option>
 
                         </select>
                     </div>
@@ -212,7 +214,7 @@ const FilterMovie = () => {
                                 
                 {
                     !(filterResult?.totalMovies > 0) && (
-                        <div>
+                        <div className="w-full min-h-[100px]">
                             <img src= {gif_wait} alt="gif wait" className="w-64 mx-auto" />
                             <h4 className="text-center italic opacity-80 mt-[-26px]">Lọc phim theo sở thích và xem ngay với MovieChill &hearts;</h4>
                         </div>

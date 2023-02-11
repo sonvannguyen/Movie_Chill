@@ -31,7 +31,7 @@ const SidebarSuggestions = () => {
             </div>
 
             <div className='relative z-0'>
-                {moviesData?.map(movie => (
+                {moviesData?.sort(() => Math.random() - 0.5).map(movie => (
                     <MovieItemSuggestion key={movie._id} movieData={movie} />
                 ))}
             </div>

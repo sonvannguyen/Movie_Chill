@@ -1,7 +1,7 @@
 import {useQuery} from 'react-query'
 import SliderBanner from "./SliderBanner";
 import MovieGroup from "./MovieGroup";
-import {BiWorld, BiTrendingUp} from 'react-icons/bi'
+import {BiTrendingUp} from 'react-icons/bi'
 import movieApi from '../services/movieApi';
 
 

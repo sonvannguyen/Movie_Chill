@@ -11,7 +11,7 @@ const MovieItemSuggestion = ({movieData}) => {
 
                 <LazyLoad LazyLoad height={120} className='LazyLoad ' >
                     <img
-                        src={`https://img.hiephanhthienha.com${movieData?.thumb_url}`} 
+                        src={movieData?.thumb_url} 
                         alt="movie thumb" 
                         className="is-visible max-w-[80px] h-full object-cover opacity-90 group-hover:opacity-60 rounded-md"
                     />
@@ -33,6 +33,7 @@ const MovieItemSuggestion = ({movieData}) => {
                         <h4 className="text-sm italic opacity-60">Phim bộ</h4>
                     )
                 }
+                <h4 className='text-sm mt-2 opacity-70'>{movieData?.time}</h4>
             </div>
         </Link>
      );

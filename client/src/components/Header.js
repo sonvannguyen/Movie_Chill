@@ -20,6 +20,8 @@ const countryData = [
 ]
 
 const Header = () => {
+    const username = localStorage.getItem('username')
+
     return ( 
         <div 
             className='sticky top-0 left-0 right-0 py-4 bg-[#1c1c1e] z-10 flex justify-between items-center border-b-[1px] border-[rgba(255,255,255,0.17)]'
@@ -88,10 +90,22 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <Link to='/login' className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
-                <AiOutlineUser/>
-                <span>Đăng nhập</span>
-            </Link>
+
+            {
+                username ? 
+                (
+                    <div className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
+                        <AiOutlineUser/>
+                        <span>{username}</span>
+                    </div>
+                ):
+                (
+                    <Link to='/login' className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
+                        <AiOutlineUser/>
+                        <span>Đăng nhập</span>
+                    </Link>
+                )
+            }
         </div>
      );
 }

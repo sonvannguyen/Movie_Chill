@@ -24,9 +24,9 @@ const MovieDetail = () => {
 
   useEffect(() => {
       setFilterMovieRecommend({
-          type: movieDetailData?.movie.type,
-          category: movieDetailData?.movie.category[0].name,
-          country: movieDetailData?.movie.country[0].name
+          type: movieDetailData?.type,
+          category: movieDetailData?.category[0],
+          country: movieDetailData?.country
       })
   }, [movieDetailData])
 
@@ -39,14 +39,14 @@ const MovieDetail = () => {
       }
   )
   useEffect(()=> {
-      if(Object.values(filterMovieRecommend).every(field => field !== '')){
+      if(Object.values(filterMovieRecommend).every(field => field !== undefined)){
           refetch()
       }
   }, [filterMovieRecommend])
   return (
     <Template 
       children={
-        <MovieInfor movieDetailData={movieDetailData?.movie}  isLoading={isLoading} movieRecommnedData ={movieRecommnedData}/>
+        <MovieInfor movieDetailData={movieDetailData}  isLoading={isLoading} movieRecommnedData ={movieRecommnedData}/>
       }
     />
   );

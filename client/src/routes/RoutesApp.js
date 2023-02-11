@@ -25,7 +25,7 @@ const RoutesApp = () => {
             <Route path="register" element={<SignUp/>}/>
 
             <Route path="detail/:movieSlug" element={<MovieDetail/>}/>
-            <Route path="watch/:movieSlug/:episode" element={<Watch/>}/>
+            <Route path="watch/:movieSlug/episode/:episode" element={<Watch/>}/>
             
             <Route path="/" element={<Home/>}/>
 

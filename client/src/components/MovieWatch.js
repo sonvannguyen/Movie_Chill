@@ -1,23 +1,24 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useRef } from 'react';
 
 import {BiMessageDetail} from 'react-icons/bi';
 import {RiMovieLine} from 'react-icons/ri'
+import { AiOutlinePlus } from 'react-icons/ai'
 import MovieGroup from './MovieGroup';
 
 
-const MovieWatch = ({movieData, episode, movieRecommnedData}) => {
+const MovieWatch = ({movieData, episodes, movieRecommnedData}) => {
+    const {episode: episodeParam} = useParams()
     const topRef = useRef(null)
     
     let embedUrl = ''
-    const listEpisodeData = movieData?.episodes[0].server_data
 
-    if(listEpisodeData?.length === 1){
-        embedUrl = listEpisodeData[0].link_embed
+    if(episodes?.length === 1){
+        embedUrl = episodes[0].link_embed
     }
     else {
-        listEpisodeData?.forEach(item => {
-            if(item.slug === episode){
+        episodes?.forEach(item => {
+            if(item.slug === episodeParam){
                 embedUrl = item.link_embed
                 return
             }
@@ -35,23 +36,31 @@ const MovieWatch = ({movieData, episode, movieRecommnedData}) => {
                 <iframe 
                     src={embedUrl} 
                     className="w-full h-[430px]"
-                    title={movieData?.movie.name}
+                    title={movieData?.name}
                     allow="fullscreen"
                 >
                 </iframe>
                 <div className='mt-5 flex justify-between items-center pr-6 border-b-[0.3px] pb-5 border-zinc-700'>
                     <div>
-                        <h3 className="text-4xl font-bold mb-2">{movieData?.movie?.origin_name}</h3>
-                        <h4 className="text-xl opacity-80">{`( ${movieData?.movie?.name} )`}</h4>
+                        <h3 className="text-4xl font-bold mb-2">{movieData?.origin_name}</h3>
+                        <h4 className="text-xl opacity-80">{`( ${movieData?.name} )`}</h4>
                     </div>
-                    <h3 className="text-2xl font-bold mb-2">{`TẬP ${episode}`}</h3>
+                    <div className='text-center'>
+                        <h3 className="text-2xl font-bold mb-3">{`TẬP ${episodeParam}`}</h3>
+                        <button 
+                            className='opacity-80 text-sm flex gap-1 items-center border-[1px] border-zinc-600 py-1 px-2 rounded-lg hover:opacity-100'
+                        >
+                            <AiOutlinePlus size={13}/>
+                            Add to bookmark
+                        </button>
+                    </div>
                 </div>
 
                 <div className='flex gap-2 items-center mt-5 text-red-400'>
                         <BiMessageDetail size={23}/>
                         <span className='text-lg' >Nội dung: </span>
                 </div>
-                <p dangerouslySetInnerHTML={{ __html: movieData?.movie?.content }} className='mt-2 px-4 italic opacity-70'></p>
+                <p dangerouslySetInnerHTML={{ __html: movieData?.content }} className='mt-2 px-4 italic opacity-70'></p>
 
                 <div>
                     <div className='flex gap-3 items-center my-6 text-red-400 '>
@@ -60,11 +69,11 @@ const MovieWatch = ({movieData, episode, movieRecommnedData}) => {
                     </div>
                     <ul className='flex gap-3 flex-wrap '>
                         {
-                            Array.from(Array(listEpisodeData?.length).keys()).map(index => {
-                                if (parseInt(episode) === index + 1 ) {
+                            Array.from(Array(episodes?.length).keys()).map(index => {
+                                if (parseInt(episodeParam) === index + 1 ) {
                                     return (
                                         <Link 
-                                            to={`/watch/${movieData?.movie.slug}/${index+1}`}
+                                            to={`/watch/${movieData?.slug}/episode/${index+1}`}
                                             key={index} 
                                             className='py-2 px-3 border-[1px] border-neutral-600 rounded-xl text-sm cursor-pointer bg-red-500 '
                                         >
@@ -75,7 +84,7 @@ const MovieWatch = ({movieData, episode, movieRecommnedData}) => {
                                 else {
                                     return (
                                         <Link
-                                            to={`/watch/${movieData?.movie.slug}/${index+1}`}
+                                            to={`/watch/${movieData?.slug}/episode/${index+1}`}
                                             key={index} 
                                             onClick= {handleScrollToTop}
                                             className='py-2 px-3 border-[1px] border-neutral-600 rounded-xl text-sm cursor-pointer hover:bg-red-500 transition duration-300 ease-linear'

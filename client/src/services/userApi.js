@@ -1,4 +1,5 @@
 import axios from "axios"
+import configHeader from './configHeader'
 
 const BASE_URL_USER = 'http://localhost:5000/user'
 
@@ -20,14 +21,47 @@ const userApi = {
             return err.message
         }
     },
-    // getMoviesWatched: async () => {
-    //     try {
-    //         const res = await axios.get(`${BASE_URL_USER}/login`, userData)
-    //         return res.data
-    //     } catch(err) {
-    //         return err.message
-    //     }
-    // },
+    getUserById : async (userId) => {
+        try {
+            const res = await axios.get(`${BASE_URL_USER}/${userId}`, configHeader)
+            console.log(`${BASE_URL_USER}/${userId}`)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+    getMoviesFromListMoviesBookmark: async (userId) => {
+        try {
+            const res = await axios.get(`${BASE_URL_USER}/bookmarked/${userId}`, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+    addMovieToMoviesBookmark: async (movieData) => {
+        try {
+            const res = await axios.post(`${BASE_URL_USER}/add/bookmark`, movieData, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+    deleteAllBookmarks: async (userId) => {
+        try {
+            const res = await axios.delete(`${BASE_URL_USER}/${userId}/delete/all/bookmarked`, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+    deleteAMovieInBookmarks: async ({userId, movieId}) => {
+        try {
+            const res = await axios.delete(`${BASE_URL_USER}/${userId}/delete/bookmarked/${movieId}`, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
 
 }
 

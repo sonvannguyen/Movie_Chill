@@ -18,7 +18,8 @@ const SearchMovie = () => {
     const titleRef = useRef(null)
     let [searchParams, setSearchParams] = useSearchParams()
 
-    // khởi tạo giá trị của currentPage và moiveName dựa vào params để giữ lại truy vấn khi back page
+   // initializing currentPage and movieName values based on the URL search parameters
+   //  to retain the query on back navigation
     const [search, setSearch] = useState({
         currentPage: parseInt(searchParams.get('page')) || 1,
         movieName: searchParams.get('movie') || ''
@@ -140,7 +141,7 @@ const SearchMovie = () => {
                 
                 {
                     !(searchResult?.totalMovies > 0) && (
-                        <div>
+                        <div className='w-full min-h-[200px]'>
                             <img src= {film_animation} alt="gif wait" className="w-44 mt-8 mx-auto" />
                             <h4 className="text-center italic opacity-80 mt-3">Tìm kiếm phim và xem ngay với MovieChill &hearts;</h4>
                         </div>

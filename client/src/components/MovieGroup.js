@@ -10,7 +10,11 @@ const MovieGroup = ({movieGroupName, icon, moviesdata}) => {
         <div className="mb-4">
             <div className="flex gap-3 items-center">
                 <div>{icon}</div>
-                <h2 className="inline-block text-2xl font-bold pb-3 mb-6 mt-3 border-b-[1px] border-red-400">{movieGroupName}</h2>
+                <h2 
+                    className="inline-block text-2xl font-bold pb-3 mb-6 mt-3 border-b-[1px] border-red-400"
+                >
+                    {movieGroupName}
+                </h2>
             </div>
             <div>
                 <Swiper 
@@ -20,7 +24,7 @@ const MovieGroup = ({movieGroupName, icon, moviesdata}) => {
                     spaceBetween={20}
                 >
                     {
-                        moviesdata?.map(movie => (
+                        moviesdata?.sort(() => Math.random() - 0.5).map(movie => (
                             <SwiperSlide key={movie._id}>
                                 <MovieItem movieData={movie}/>
                             </SwiperSlide>

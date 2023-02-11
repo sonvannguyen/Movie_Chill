@@ -4,15 +4,17 @@ import LazyLoad from 'react-lazy-load';
 import { BsPlayCircle } from "react-icons/bs";
 import {RiDeleteBack2Line} from 'react-icons/ri'
 
-const MovieItem = ({inPageEdit, movieData}) => {
-
+const MovieItem = ({inPageEdit, movieData, handleOpenModalDeleteAMovie}) => {
+    const handleClickDelete = () => {
+        handleOpenModalDeleteAMovie(movieData?._id)
+    }
     return ( 
         <div>
             <div className="relative group" >
                 <div className="overflow-hidden group rounded-md">
                     <LazyLoad height={260} width={200} className='LazyLoad ' >
                         <img 
-                            src={`https://img.hiephanhthienha.com${movieData?.thumb_url}`}
+                            src={movieData?.thumb_url}
                             className='is-visible min-h-[260px] max-h-[260px] object-cover rounded-md cursor-pointer group-hover:opacity-70 group-hover:scale-105 transition duration-300 ease-in-out'
                             alt="thumb img" 
                         />
@@ -25,7 +27,10 @@ const MovieItem = ({inPageEdit, movieData}) => {
 
                 {
                     inPageEdit &&
-                    <div className="hidden group-hover:flex absolute top-0 right-0 p-2 bg-zinc-700 cursor-pointer hover:bg-red-500">
+                    <div 
+                        onClick={handleClickDelete}
+                        className="absolute top-0 right-0 p-2 bg-zinc-700 cursor-pointer hover:bg-red-500"
+                    >
                         <RiDeleteBack2Line size={22}/>
                     </div>
                 }

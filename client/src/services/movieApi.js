@@ -3,8 +3,6 @@ import axios from "axios"
 const BASE_URL_MOVIEGR = 'http://localhost:5000/admin/movieGroup'
 const BASE_URL_MOVIE = 'http://localhost:5000/movie'
 
-const FOREIGN_URL = 'https://ophim1.com/phim/'
-
 const movieApi = {
     getMoviesInGroup: async() => {
         try {
@@ -24,7 +22,7 @@ const movieApi = {
     },
     getMovieDetail: async(movieSlug) => {
         try {
-            const res = await axios.get(`${FOREIGN_URL}/${movieSlug}`)
+            const res = await axios.get(`${BASE_URL_MOVIE}/detail/${movieSlug}`)
             return res.data
         } catch (error) {
             handleError(error)

@@ -29,6 +29,7 @@ const SignIn = () => {
         if(typeof(data) === 'object'){
           localStorage.setItem('movie_access_token', data.accessToken)
           localStorage.setItem('movie_userId', data.user._id)
+          localStorage.setItem('username', data.user.username)
           navigate('/')
         }
         else {
@@ -37,9 +38,8 @@ const SignIn = () => {
             message: data
           })
         }
-      }
-    }, 
-    {
+      },
+      
       onError: (error) => alert(error)
     }
   )

@@ -1,4 +1,4 @@
-const token = localStorage.getItem('access_token')
+const token = localStorage.getItem('movie_access_token')
 const configHeader = {
     headers: {
         'authorization': `${token}`,
