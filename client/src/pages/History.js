@@ -1,12 +1,88 @@
+import { useEffect, useState } from "react";
+import { useQuery, useMutation} from "react-query";
+import {AiOutlineDelete} from 'react-icons/ai'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SidebarSuggestions from "../components/SidebarSuggestions";
+import userApi from "../services/userApi";
 import MovieItem from "../components/MovieItem";
+import ModalConfirm from "../components/ModalConfirm";
+import icon_addmovie from '../assets/images/icon_addmovie.png'
 
-import {AiOutlineDelete} from 'react-icons/ai'
+const optionToast = {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+}
 
 const History = () => {
+    const userId = localStorage.getItem('movie_userId')
+    const [isOpenModalClearAll, setIsOpenModalClearAll] = useState(false)
+    const [modalDeleteAMovie, setModalDeleteAMovie] = useState({
+        isOpen: false,
+        movieId: ''
+    })
+
+    const {data: moviesData, refetch} = useQuery(
+        ['moviesBookmarked', userId],
+        () => userApi.getMoviesFromHistory(userId)
+    )
+
+    useEffect(() => {
+        refetch()
+    }, [userId])
+
+    const deleteMovieInHistory = useMutation(
+        userApi.deleteAMovieInHistory,
+        {
+            onSuccess: () => {
+                refetch()
+                toast.success('Đã xóa phim thành công.', optionToast)
+            },
+            onError: (error) => alert(error)
+        }
+    )
+    const clearAllHistory = useMutation(
+        userApi.deleteAllHistory,
+        {
+            onSuccess: () => {
+                refetch()
+                toast.success('Đã xóa toàn bộ lịch sử thành công.', optionToast)
+            },
+            onError: (error) => alert(error)
+        }
+    )
+    const handleOpenModalClearAll = () => {
+        setIsOpenModalClearAll(true)
+    }
+    const handleCloseModalClearAll = () => {
+        setIsOpenModalClearAll(false)
+    }
+
+    const handleOpenModalDeleteAMovie = (movieId) => {
+        setModalDeleteAMovie({isOpen: true, movieId: movieId})
+    }
+    const handleCloseModalDeleteAMovie = () => {
+        setModalDeleteAMovie({...modalDeleteAMovie, isOpen: false})
+    }
+
+    const onConfirmDeleteAMovie = () => {
+        deleteMovieInHistory.mutate({userId, movieId: modalDeleteAMovie.movieId})
+        setModalDeleteAMovie({isOpen: false, movieId: ''})
+    }
+    const onConfirmClearAllBookmarks = () => {
+        clearAllHistory.mutate(userId)
+        setIsOpenModalClearAll(false)
+    }
     return ( 
         <div className="grid grid-cols-5 gap-6">
             <div className="col-start-1 col-end-2 h-screen">
@@ -17,32 +93,83 @@ const History = () => {
                 
                 <div className="flex justify-between items-end">
                     <h2 className="inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
-                        HISTORY - Phim Đã Xem
+                        {`HISTORY - Phim Đã Xem ( ${moviesData?.length} )`}
                     </h2>
-                    <button className="flex items-center gap-2 p-2 rounded-xl border-[1px] border-[rgba(255,255,255,0.27)] hover:bg-red-500 transition duration-300 ease-in-out">
-                        <AiOutlineDelete size={24}/>
-                        <span>Clear all history</span>
-                    </button>
+                    {
+                        (moviesData?.length > 0) &&
+                        <button 
+                            onClick={handleOpenModalClearAll}
+                            className="flex items-center gap-2 p-2 rounded-xl border-[1px] border-[rgba(255,255,255,0.27)] hover:bg-red-500 transition duration-300 ease-in-out"
+                        >
+                            <AiOutlineDelete size={24}/>
+                            <span>Clear all history</span>
+                        </button>
+                    }
                 </div>
 
-                <div className="flex gap-5 mt-10">
-                    <MovieItem inPageEdit="true"/>
-                    <MovieItem inPageEdit="true"/>
-                    <MovieItem inPageEdit="true"/>
-                    <MovieItem inPageEdit="true"/>
-                </div>
-                <div className="flex gap-5 mt-10">
-                    <MovieItem inPageEdit="true"/>
-                    <MovieItem inPageEdit="true"/>
-                    <MovieItem inPageEdit="true"/>
-                    <MovieItem inPageEdit="true"/>
+                <div className='grid grid-cols-4 gap-6 mt-7 w-full'>
+                    {
+                        moviesData?.map(movie => (
+                            <MovieItem 
+                                key={movie._id} 
+                                inPageEdit="true" 
+                                movieData={movie} 
+                                handleOpenModalDeleteAMovie = {handleOpenModalDeleteAMovie}
+                            />
+                        ))
+                    }
                 </div>
 
+                {
+                    modalDeleteAMovie.isOpen && 
+                    (
+                        <ModalConfirm  
+                            handleCloseModal = {handleCloseModalDeleteAMovie} 
+                            onConfirm={onConfirmDeleteAMovie}
+                            message = "Bạn có chắc chắn muốn xóa phim khỏi History không ?"
+                        />
+                    )
+                }
+
+                {
+                    isOpenModalClearAll && 
+                    (
+                        <ModalConfirm  
+                            handleCloseModal = {handleCloseModalClearAll} 
+                            onConfirm={onConfirmClearAllBookmarks}
+                            message = "Bạn có chắc chắn muốn xóa toàn bộ lịch sử không ?"
+                        />
+                    )
+                }
+
+                {
+                    (moviesData?.length === 0) && (
+                        <div className="flex flex-col w-full mx-auto items-center min-h-[260px]">
+                            <img className="w-60 object-cover" src={icon_addmovie} alt="icon" />
+                            <p className="text-center text-lg italic text-gray-400 mt-[-10px]">
+                                Bạn chưa xem phim nào.<br/> Hãy trải nghiệm ngay với Movie Chill nhé !
+                            </p>
+                        </div>
+                    )
+                }
                 <Footer/>
             </div>
             <div className="col-span-1">
                 <SidebarSuggestions/>
             </div>
+
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
      );
 }

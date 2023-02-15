@@ -2,10 +2,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query'; 
 import { useState, useRef } from 'react';
 import {BiHide, BiShow} from 'react-icons/bi'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import auth_banner from "../assets/images/auth_banner.jpg";
 import logo from "../assets/images/logo.png";
 import userApi from '../services/userApi';
+
+const optionToast = {
+  position: "top-center",
+  autoClose: 2000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+}
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -28,6 +41,7 @@ const SignUp = () => {
     {
       onSuccess: (data) => {
         if(data === 'Register success'){
+          toast.success('Đăng ký thành công. Giờ đây bạn có thể đăng nhập vào.', optionToast)
           navigate('/login')
         }
       }
@@ -191,6 +205,18 @@ const SignUp = () => {
           <Link to='/login' className="underline text-red-400 p-2 font-bold">Đăng nhập tại đây</Link>
         </div>
       </div>
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+      />
     </div>
   );
 };

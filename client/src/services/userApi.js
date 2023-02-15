@@ -6,7 +6,6 @@ const BASE_URL_USER = 'http://localhost:5000/user'
 const userApi = {
     register: async(userData) => {
         try {
-            console.log(userData)
             const res = await axios.post(`${BASE_URL_USER}/register`, userData )
             return res.data
         } catch(err) {
@@ -57,6 +56,39 @@ const userApi = {
     deleteAMovieInBookmarks: async ({userId, movieId}) => {
         try {
             const res = await axios.delete(`${BASE_URL_USER}/${userId}/delete/bookmarked/${movieId}`, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+
+    getMoviesFromHistory: async (userId) => {
+        try {
+            const res = await axios.get(`${BASE_URL_USER}/history/${userId}`, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+    addMovieToHistory: async (movieData) => {
+        try {
+            const res = await axios.post(`${BASE_URL_USER}/add/history`, movieData, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+    deleteAllHistory: async (userId) => {
+        try {
+            const res = await axios.delete(`${BASE_URL_USER}/${userId}/delete/all/history`, configHeader)
+            return res.data
+        } catch(err) {
+            return err.message
+        }
+    },
+    deleteAMovieInHistory: async ({userId, movieId}) => {
+        try {
+            const res = await axios.delete(`${BASE_URL_USER}/${userId}/delete/history/${movieId}`, configHeader)
             return res.data
         } catch(err) {
             return err.message

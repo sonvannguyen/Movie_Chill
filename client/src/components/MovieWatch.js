@@ -1,13 +1,28 @@
+import { useRef, useState } from 'react';
+import { useMutation } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
-import { useRef } from 'react';
-
 import {BiMessageDetail} from 'react-icons/bi';
 import {RiMovieLine} from 'react-icons/ri'
 import { AiOutlinePlus } from 'react-icons/ai'
-import MovieGroup from './MovieGroup';
+import { ToastContainer, toast } from 'react-toastify';
 
+import userApi from '../services/userApi';
+import Comment from './Comment';
+import ModalConfirm from './ModalConfirm';
+import movieApi from '../services/movieApi';
 
-const MovieWatch = ({movieData, episodes, movieRecommnedData}) => {
+const optionToast = {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+}
+
+const MovieWatch = ({movieData, episodes, handleOnSubmitCreateComment, refetchMovieDetail}) => {
     const {episode: episodeParam} = useParams()
     const topRef = useRef(null)
     
@@ -29,17 +44,100 @@ const MovieWatch = ({movieData, episodes, movieRecommnedData}) => {
         topRef?.current.scrollIntoView({ behavior: 'smooth'})
     }
 
+    // handle add movie to bookmarks
+    const userId = localStorage.getItem('movie_userId')
+    const accessToken = localStorage.getItem('movie_access_token')
+
+    const addMovieToBookmark = useMutation(
+        userApi.addMovieToMoviesBookmark,
+        {
+            onSuccess: (data) => {
+                if(data === 'Request failed with status code 409'){
+                    toast.error('Phim đã tồn tại trong Bookmark.', optionToast)
+                }
+                else {
+                    toast.success('Đã thêm phim thành công.', optionToast)
+                }
+            },
+            onError: (error) => alert(error)
+        }
+    )
+
+    const handleBookmark = () => {
+        if(accessToken){
+            addMovieToBookmark.mutate({userId, movieId: movieData?._id})
+        }
+        else {
+            toast.error('Bạn cần Đăng nhập để thực hiện.', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+        }
+    }
+    // handle comment
+    let commentsData = movieData?.comments
+
+    const commentRef = useRef(null)
+    const onSubmitComment = () => {
+        const commentContent = commentRef?.current.value
+        if( commentContent.length > 0){
+            handleOnSubmitCreateComment(commentContent)
+            commentRef.current.value = ''
+        }
+    }
+    const handleOnKeyDown = (event) => {
+        if(event.key === 'Enter'){
+            onSubmitComment()
+        }
+    }
+
+    // modal confirm delete comment
+    const [commentModal, setCommentModal] = useState({
+        isOpen: false,
+        commentId: ''
+    })
+
+    const deleteComment = useMutation(
+        movieApi.deleteComment,
+        {
+            onSuccess: (data) => {
+                console.log(data)
+                refetchMovieDetail()
+            },
+            onError: (error) => alert(error)
+        }
+    )
+
+    const handleOpenModal = (commentId) => {
+        setCommentModal({ isOpen: true, commentId: commentId})
+    }
+    const handleCloseModal = () => {
+        setCommentModal({isOpen: false, commentId: ''})
+    }
+
+    const onConfirmDeleteComment = () => {
+        deleteComment.mutate({movieId: movieData?._id, commentId: commentModal.commentId})
+        setCommentModal({isOpen: false, commentId: ''})
+    }
+    
+
     return ( 
         <>
             <div className='relative mb-8'>
                 <div className='absolute top-[-100px]' ref={topRef}></div>
-                <iframe 
+                {/* <iframe 
                     src={embedUrl} 
                     className="w-full h-[430px]"
                     title={movieData?.name}
                     allow="fullscreen"
                 >
-                </iframe>
+                </iframe> */}
                 <div className='mt-5 flex justify-between items-center pr-6 border-b-[0.3px] pb-5 border-zinc-700'>
                     <div>
                         <h3 className="text-4xl font-bold mb-2">{movieData?.origin_name}</h3>
@@ -48,6 +146,7 @@ const MovieWatch = ({movieData, episodes, movieRecommnedData}) => {
                     <div className='text-center'>
                         <h3 className="text-2xl font-bold mb-3">{`TẬP ${episodeParam}`}</h3>
                         <button 
+                            onClick={handleBookmark}
                             className='opacity-80 text-sm flex gap-1 items-center border-[1px] border-zinc-600 py-1 px-2 rounded-lg hover:opacity-100'
                         >
                             <AiOutlinePlus size={13}/>
@@ -99,7 +198,84 @@ const MovieWatch = ({movieData, episodes, movieRecommnedData}) => {
                 </div>
             </div>
 
-            <MovieGroup movieGroupName="Phim Cùng Thể Loại" moviesdata={movieRecommnedData?.moviesData}/>
+            {/* comments */}
+            <div>
+                <h4 
+                    className="inline-block text-2xl font-bold pb-3 mb-6 mt-3 border-b-[1px] border-red-400"
+                >
+                    {`Bình Luận (${movieData?.comments.length || 0})`}
+                </h4>
+
+                {/* enter comment */}
+                {
+                    accessToken ? (
+                        <div className='flex gap-4 mb-8 items-center'>
+                            <img 
+                                className="w-12 h-12 object-cover rounded-full"
+                                src="https://i.pinimg.com/236x/48/07/43/4807437150542c4c980d358291aea33d.jpg" 
+                                alt="avatar"
+                            />
+                            <input 
+                                type="text" 
+                                ref={commentRef}
+                                onKeyDown={handleOnKeyDown}
+                                placeholder='Thêm bình luận...'
+                                className='rounded-lg p-4 w-[500px] bg-[#3f3f46ad] outline-none' 
+                            />
+                            <button 
+                                onClick={onSubmitComment}
+                                className='text-lg bg-red-500 hover:bg-red-600 py-3 px-6 rounded-md transition duration-150'
+                            >
+                                Đăng
+                            </button>
+                        </div>
+                    ) : (
+                        <div className='flex justify-center gap-3'>
+                            <span className='text-lg'>Bạn cần </span>
+                            <Link to='/login' className='text-lg text-red-400 font-bold'>Đăng Nhập</Link>
+                            <span className='text-lg'> để có thể thêm bình luận !</span>
+
+                        </div>
+                    )
+                }
+
+                <div className='max-h-[468px] overflow-y-scroll custom-scrollbar'>
+                    {
+                        commentsData?.map(comment => (
+                            <Comment 
+                                key={comment._id} 
+                                commentData={comment}
+                                handleOpenModal={handleOpenModal}
+                            />
+                        ))
+                    }
+                </div>
+
+                
+                {
+                    commentModal.isOpen && 
+                    (
+                        <ModalConfirm  
+                            handleCloseModal = {handleCloseModal} 
+                            onConfirm={onConfirmDeleteComment}
+                            message = "Bạn có chắc chắn muốn xóa bình luận này không ?"
+                        />
+                    )
+                }
+            </div>
+
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </>
     );
 }

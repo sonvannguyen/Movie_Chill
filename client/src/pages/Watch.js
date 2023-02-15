@@ -1,54 +1,66 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 
 import Header from "../components/Header";
 import MovieWatch from "../components/MovieWatch";
 import Template from "../components/Template";
 import movieApi from "../services/movieApi";
+import userApi from "../services/userApi";
 
 const Watch = () => {
-    const {movieSlug, episode} = useParams()
-    
-    const {data: movieData} = useQuery(
+    const {movieSlug} = useParams()
+    const userId = localStorage.getItem('movie_userId')
+   
+    // get movie data detail by slug
+    const {data: movieData, refetch: refetchMovieDetail} = useQuery(
         ['movieDetail', movieSlug],
         () => movieApi.getMovieDetail(movieSlug),
         {
             staleTime: 5 * 60 * 1000
         }
     )
-    const [filterMovieRecommend, setFilterMovieRecommend ] = useState({
-        type: '',
-        category: '',
-        country: ''
-    })
-    
-    useEffect(() => {
-        setFilterMovieRecommend({
-            type: movieData?.type,
-            category: movieData?.category[0],
-            country: movieData?.country
-        })
-    }, [movieData])
 
-    const {data: movieRecommnedData, refetch} = useQuery(
-        ['movieRecommned', movieSlug],
-        () => movieApi.getMovieRecommend(filterMovieRecommend),
+    // handle add movie to history
+    const addMovieToHistory = useMutation(
+        userApi.addMovieToHistory,
         {
-            staleTime: 5 * 60 * 1000,
-            enabled: false
+            onSuccess: (data) => console.log(data),
+            onError: (error) => alert(error)
         }
     )
-    useEffect(()=> {
-        if(Object.values(filterMovieRecommend).every(field => field !== undefined)){
-            refetch()
+    useEffect(() => {
+        if(movieData && userId){
+            addMovieToHistory.mutate({userId, movieId: movieData._id})
         }
-    }, [filterMovieRecommend])
-   
+    }, [movieData])
+
+    // handle create comment movie
+    const createComment = useMutation(
+        movieApi.createNewComment,
+        {
+            onSuccess: () => {
+                refetchMovieDetail()
+            },
+            onError: (error) => alert(error)
+        }
+    )
+
+    const handleOnSubmitCreateComment = (content) => {
+        createComment.mutate({userId, movieId: movieData._id, content})
+    }
     return (
        <Template 
         header={<Header/>} 
-        children={<MovieWatch movieData={movieData} episodes={movieData?.episodes} movieRecommnedData={movieRecommnedData}/>}
+        children={
+            <MovieWatch 
+                movieData={movieData} 
+                episodes={movieData?.episodes}
+                handleOnSubmitCreateComment={handleOnSubmitCreateComment}
+                refetchMovieDetail={refetchMovieDetail}
+            />
+        }
        />
     );
 }

@@ -1,15 +1,13 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation} from 'react-query';
-
-import {IoMdShareAlt} from 'react-icons/io'
-import {BsBookmarkHeart, BsPlayBtn, BsFillBookmarkCheckFill} from 'react-icons/bs'
-import { CircularProgressbar, buildStyles  } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import MovieGroup from './MovieGroup';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {IoMdShareAlt} from 'react-icons/io'
+import {BsBookmarkHeart, BsPlayBtn} from 'react-icons/bs'
+import { CircularProgressbar, buildStyles  } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+import MovieGroup from './MovieGroup';
 import userApi from '../services/userApi';
 
 
@@ -54,7 +52,6 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
 
     const accessToken = localStorage.getItem('movie_access_token')
     const userId = localStorage.getItem('movie_userId')
-    const [isBookmarked, setIsBookmarked] = useState(false)
 
     const addMovieToBookmark = useMutation(
         userApi.addMovieToMoviesBookmark,
@@ -66,7 +63,6 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
                 else {
                     toast.success('Đã thêm phim thành công.', optionToast)
                 }
-                setIsBookmarked(true)
             },
             onError: (error) => alert(error)
         }
@@ -145,10 +141,7 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
                             onClick={handleBookmark}
                             className='group relative bg-[rgba(0,0,0,0.6)] p-3 rounded-full cursor-pointer hover:bg-black shadow-primary'
                         >
-                            {
-                                isBookmarked ? 
-                                <BsFillBookmarkCheckFill fontSize={24} /> : <BsBookmarkHeart fontSize={24} />
-                            }
+                            <BsBookmarkHeart fontSize={24} />
                             <span className='hidden group-hover:block absolute left-[-12px] bottom-[-24px] bg-black px-1'>Bookmark</span>
                         </div>
                         <div className='group bg-[rgba(0,0,0,0.6)] p-3 rounded-full cursor-pointer hover:bg-black shadow-primary'>

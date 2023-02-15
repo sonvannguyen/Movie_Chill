@@ -121,7 +121,7 @@ const Bookmarked = () => {
 
                 {
                     (moviesData?.length === 0) && (
-                        <div className="flex flex-col w-full mx-auto items-center">
+                        <div className="flex flex-col w-full mx-auto items-center min-h-[260px]">
                             <img className="w-60 object-cover" src={icon_addmovie} alt="icon" />
                             <p className="text-center text-lg italic text-gray-400 mt-[-10px]">
                                 Tìm kiếm phim yêu thích và ấn chọn Bookmark <br/> để lưu lại phim nhé !
