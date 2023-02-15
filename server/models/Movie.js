@@ -83,10 +83,13 @@ const MovieSchema = new Schema({
             },
             commentContent: {
                 type: String
+            },
+            createAt: {
+                type: Object
             }
         }
     ],
-})
+}, {timestamps: true})
 
 const MovieModel = mongoose.model('Movie', MovieSchema)
 

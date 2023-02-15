@@ -17,7 +17,7 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: "https://tleliteracy.com/wp-content/uploads/2017/02/default-avatar.png"
+        default: "https://i.pinimg.com/236x/48/07/43/4807437150542c4c980d358291aea33d.jpg"
     },
     isAdmin: {
         type: Boolean,

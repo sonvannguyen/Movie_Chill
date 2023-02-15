@@ -48,7 +48,7 @@ const userController = {
                 const accessToken = jwt.sign(
                     {userId: user._id, username: user.username},
                     process.env.JWT_SECRET,
-                    { expiresIn: "4h"}
+                    { expiresIn: "30d"}
                 )
                 return res.status(200).json({user, accessToken})
             }
@@ -85,7 +85,7 @@ const userController = {
             }
 
             if(user.moviesWatched.includes(movieId)){
-                return res.status(409).json('Movie already exist !')
+                return
             }
 
             user.moviesWatched.push(movieId)
@@ -104,7 +104,7 @@ const userController = {
                 path: 'moviesWatched', 
             })
 
-            return res.status(200).json(moviesData.moviesWatched)
+            return res.status(200).json(moviesData.moviesWatched.reverse())
 
         } catch (error) {
             next(createError(500, error.message))
