@@ -26,7 +26,6 @@ const Watch = () => {
     const addMovieToHistory = useMutation(
         userApi.addMovieToHistory,
         {
-            onSuccess: (data) => console.log(data),
             onError: (error) => alert(error)
         }
     )

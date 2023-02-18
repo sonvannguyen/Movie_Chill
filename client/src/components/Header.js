@@ -1,5 +1,12 @@
+import { useState , useRef, useEffect  } from 'react'
 import { Link } from 'react-router-dom'
-import {AiOutlineCaretDown, AiOutlineUser} from 'react-icons/ai'
+import {AiOutlineCaretDown, AiOutlineUser, AiOutlineMenuUnfold} from 'react-icons/ai'
+import {BsSearch} from 'react-icons/bs'
+import {MdClose} from 'react-icons/md'
+
+import logo from '../assets/images/logo.png'
+import Sidebar from './Sidebar'
+
 
 const categoryData = [
     "Tình Cảm",
@@ -20,13 +27,31 @@ const countryData = [
 ]
 
 const Header = () => {
+    const [isOpenMenu, setIsOpenMenu] = useState(false)
     const username = localStorage.getItem('username')
+
+    // handle menu
+    const menuRef = useRef(null)
+    const handleToggleMenu = () => setIsOpenMenu(!isOpenMenu)
+
+    const handleOutsideClick = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setIsOpenMenu(false)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', handleOutsideClick, true)
+        return () => {
+          document.removeEventListener('click', handleOutsideClick, true)
+        }
+    })
 
     return ( 
         <div 
-            className='sticky top-0 left-0 right-0 py-4 bg-[#1c1c1e] z-10 flex justify-between items-center border-b-[1px] border-[rgba(255,255,255,0.17)]'
+            className='sticky top-0 left-0 right-0 py-1 px-3 md:px-0 md:py-4 bg-[#1c1c1e] z-10 md:flex md:justify-between items-center border-b-[1px] border-[rgba(255,255,255,0.17)] md:pl-5'
         >
-            <div className="flex justify-between gap-3">
+            <div className="hidden md:flex justify-between gap-3">
                 <Link to='/filter?type=single' className="tag-primary">Phim Lẻ</Link>
                 <Link to='/filter?type=series' className="tag-primary">Phim Bộ</Link>
 
@@ -94,18 +119,50 @@ const Header = () => {
             {
                 username ? 
                 (
-                    <div className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
+                    <div className='hidden lg:flex lg:items-center lg:gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
                         <AiOutlineUser/>
                         <span>{username}</span>
                     </div>
                 ):
                 (
-                    <Link to='/login' className='flex items-center gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
+                    <Link to='/login' className='hidden lg:flex lg:items-cente lg:gap-2 bg-neutral-800 p-2 cursor-pointer hover:bg-red-500 transition duration-300 ease-in-out rounded-md '>
                         <AiOutlineUser/>
                         <span>Đăng nhập</span>
                     </Link>
                 )
             }
+
+            {/* for mobile */}
+            <div className='flex justify-between items-center'>
+                <Link to='/'>
+                    <img src={logo} alt="logo" className='md:hidden w-24' />
+                </Link>
+                <div className='md:hidden flex items-center gap-2'>
+                    <Link to='/search' className='p-3'>
+                        <BsSearch size={20}/>
+                    </Link>
+                    <div className=' py-2 pl-3 pr-0' onClick={handleToggleMenu}>
+                        {
+                            isOpenMenu ? 
+                            (
+                                <MdClose size={32}/>
+                            ):(
+                                <AiOutlineMenuUnfold size={32}/>
+                            )
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div className={`${isOpenMenu? '' : 'hidden'} md:hidden fixed left-0 bottom-0 h-screen bg-[#15151577] w-full`}>
+                <div 
+                    className={`${isOpenMenu && 'open'} w-[68%] h-screen bg-[#151515] pt-20 pl-5`}
+                    ref={menuRef}
+                >
+                    <Sidebar/>
+                </div>
+            </div>
+
         </div>
      );
 }

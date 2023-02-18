@@ -12,10 +12,10 @@ const MovieItem = ({inPageEdit, movieData, handleOpenModalDeleteAMovie}) => {
         <div>
             <div className="relative group" >
                 <div className="overflow-hidden group rounded-md">
-                    <LazyLoad height={260} width={200} className='LazyLoad ' >
+                    <LazyLoad className='LazyLoad ' >
                         <img 
                             src={movieData?.thumb_url}
-                            className='is-visible min-h-[260px] max-h-[260px] object-cover rounded-md cursor-pointer group-hover:opacity-70 group-hover:scale-105 transition duration-300 ease-in-out'
+                            className='is-visible w-full min-h-[300px] max-h-[300px] md:min-h-[260px] lg:min-h-[260px] lg:max-h-[260px] object-cover rounded-md cursor-pointer group-hover:opacity-70 group-hover:scale-105 transition duration-300 ease-in-out'
                             alt="thumb img" 
                         />
                     </LazyLoad>

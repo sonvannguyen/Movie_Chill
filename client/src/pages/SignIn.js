@@ -79,17 +79,17 @@ const SignIn = () => {
 
   return (
     <div className="h-screen relative">
-      <img src={auth_banner} className="w-screen h-screen" alt="auth banner" />
+      <img src={auth_banner} className="w-screen h-screen object-cover" alt="auth banner" />
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"></div>
       <Link to='/'>
         <img
           src={logo}
-          className="absolute top-0 left-12 w-52 cursor-pointer "
+          className="absolute top-0 left-4 md:left-12 w-32 md:w-40 lg:w-52 cursor-pointer "
           alt="logo"
         />
       </Link>
 
-      <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[400px] bg-[#000000bc] p-10">
+      <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[340px] md:w-[400px] bg-[#000000bc] p-6 md:p-10">
         <h3 className="text-4xl font-bold">Đăng Nhập</h3>
 
         <div className="flex flex-col mt-8">

@@ -22,38 +22,50 @@ const Sidebar = () => {
     }
 
     return ( 
-        <div className='relative w-auto h-full border-r-[1px] border-[#ffffff1d] '>
-            <div className='fixed top-2 left-8 '>
-               <img className='w-36 cursor-pointer' src={logo} alt="logo" />
+        <div className='md:relative w-auto h-full border-r-[1px] border-[#ffffff1d] '>
+            <div className='md:fixed left-5 top-2 lg:left-8 '>
+               <img className='hidden md:block w-36 cursor-pointer' src={logo} alt="logo" />
 
                <div>
                     <h3 className='text-xl mt-6 mb-4 font-bold'>MENU</h3>
 
                     <NavLink to='/' className={navItem}>
                         <AiOutlineHome size={22}/>
-                        <span className='text-lg'>Home</span>
+                        <span className='lg:text-lg'>Home</span>
                     </NavLink>
 
                     <NavLink to='/search' className={navItem}>
                         <AiOutlineSearch size={22}/>
-                        <span className='text-lg'>Search</span>
+                        <span className='lg:text-lg'>Search</span>
                     </NavLink>
 
                     <NavLink to='/filter' className={navItem}>
                         <BiFilterAlt size={22}/>
-                        <span className='text-lg'>Filter</span>
+                        <span className='lg:text-lg'>Filter</span>
                     </NavLink>
 
                     <h3 className='text-xl mt-10 mb-4 font-bold'>PERSONAL</h3>
 
                     <NavLink to='/history' className={navItem}>
                         <AiOutlineHistory size={22}/>
-                        <span className='text-lg'>History</span>
+                        <div className='flex flex-col'>
+                            <span className='lg:text-lg'>History</span>
+                            {
+                                !accessToken && 
+                                <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  
+                            }
+                        </div>
                     </NavLink>
                     
                     <NavLink to='/bookmarked' className={navItem}>
                         <BsBookmarkCheck size={22}/>
-                        <span className='text-lg'>Bookmarked</span>
+                        <div className='flex flex-col'>
+                             <span className='lg:text-lg'>Bookmarked</span>
+                            {
+                                !accessToken && 
+                                <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  
+                            }  
+                        </div>
                     </NavLink>
 
                     {
@@ -61,13 +73,13 @@ const Sidebar = () => {
                         (
                             <div className='menu-item' onClick={handleLogout}>
                                 <CiLogout size={24}/>
-                                <span className='text-lg'>Log out</span>
+                                <span className='lg:text-lg'>Log out</span>
                             </div>
                         ) :
                         (
                             <Link to='/login' className='menu-item'>
                                 <CiLogin size={26}/>
-                                <span className='text-lg'>Log in</span>
+                                <span className='lg:text-lg'>Log in</span>
                             </Link>
                         )
                     }

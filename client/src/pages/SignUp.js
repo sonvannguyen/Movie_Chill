@@ -11,7 +11,7 @@ import userApi from '../services/userApi';
 
 const optionToast = {
   position: "top-center",
-  autoClose: 2000,
+  autoClose: 3000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
@@ -41,8 +41,16 @@ const SignUp = () => {
     {
       onSuccess: (data) => {
         if(data === 'Register success'){
-          toast.success('Đăng ký thành công. Giờ đây bạn có thể đăng nhập vào.', optionToast)
-          navigate('/login')
+          toast.success('Đăng ký thành công. Giờ đây bạn có thể đăng nhập.', optionToast)
+          setTimeout(() => {
+            navigate('/login')
+          }, 4000)
+        }
+        else {
+          setError({
+            isError: true,
+            message: data
+          })
         }
       }
     }, 
@@ -96,17 +104,17 @@ const SignUp = () => {
 
   return (
     <div className="h-screen relative">
-      <img src={auth_banner} className="w-screen h-screen" alt="auth banner" />
+      <img src={auth_banner} className="w-screen h-screen object-cover" alt="auth banner" />
       <div className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"></div>
       <Link to='/'>
         <img
           src={logo}
-          className="absolute top-0 left-12 w-52 cursor-pointer "
+          className="absolute top-0 left-4 md:left-12 w-32 md:w-40 lg:w-52 cursor-pointer "
           alt="logo"
         />
       </Link>
 
-      <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[400px] bg-[#000000bc] p-10">
+      <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[340px] md:w-[400px] bg-[#000000bc] p-6 md:p-10">
         <h3 className="text-4xl font-bold">Đăng Ký</h3>
         
         <div className="flex flex-col mt-8">

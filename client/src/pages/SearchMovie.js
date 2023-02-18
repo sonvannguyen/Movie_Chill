@@ -57,22 +57,23 @@ const SearchMovie = () => {
 
     
     return ( 
-        <div className="grid grid-cols-5 gap-6">
-            <div className="col-start-1 col-end-2 h-screen">
+        <div className="grid lg:grid-cols-5 lg:gap-6 md:grid-cols-4">
+            <div className="hidden bg:block md:block col-start-1 col-end-2 h-screen">
                 <Sidebar/>
             </div>
-            <div className="col-start-2 col-span-3 overflow-y-scroll no-scrollbar h-screen">
+            <div className="md:col-start-2 md:col-span-3 md:overflow-y-scroll md:no-scrollbar h-screen">
                 <Header/>
 
+                <div className="px-3 md:px-6 lg:px-0">
                 <h2 
                     ref={titleRef}
-                    className="inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400"
+                    className="inline-block lg:ml-0 text-2xl md:text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400"
                 >
                     Search Movie
                 </h2>
 
-                <div className='relative flex gap-3 justify-between px-20'>
-                    <BsSearch className='absolute top-4 left-[95px] cursor-pointer'/>
+                <div className='relative flex gap-3 justify-between'>
+                    <BsSearch className='absolute top-4 left-[16px] cursor-pointer'/>
 
                     <input 
                         type="text" 
@@ -84,14 +85,14 @@ const SearchMovie = () => {
 
                     <button 
                         onClick={handleClickSearch}
-                        className="px-3 text-lg rounded-xl border-[1px] border-[rgba(255,255,255,0.27)] hover:bg-red-500"
+                        className="px-1 md:px-3 md:text-lg rounded-xl border-[1px] border-[rgba(255,255,255,0.27)] hover:bg-red-500"
                     >
                         Search
                     </button>
                 </div>
 
                 {/* // Trường hợp có kết quả tìm kiếm */}
-
+               
                 {
                     searchResult && (
                         <h4 className='text-xl font-bold mt-6 italic'>
@@ -103,7 +104,7 @@ const SearchMovie = () => {
                 {
                     searchResult?.totalMovies > 0 &&
                     (
-                        <div className='grid grid-cols-4 gap-6 mt-7'>
+                        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-7'>
                             {
                                 searchResult?.moviesData?.map(movie => (
                                     <MovieItem key={movie._id} movieData={movie}/>
@@ -124,8 +125,8 @@ const SearchMovie = () => {
                                 breakClassName={'p-2'}
                                 forcePage={search.currentPage-1}
                                 pageCount={searchResult?.totalPages}
-                                marginPagesDisplayed={2}
-                                pageRangeDisplayed={3}
+                                marginPagesDisplayed={1}
+                                pageRangeDisplayed={1}
                                 onPageChange={handlePageClick}
                                 containerClassName={'flex gap-2 mt-10'}
                                 pageLinkClassName={'py-3 px-5 bg-zinc-700 rounded-md'}
@@ -136,6 +137,7 @@ const SearchMovie = () => {
                         </div>
                     )
                 }
+                </div>
 
                 {/* // Trường hợp không có kết quả tìm kiếm */}
                 
@@ -147,10 +149,13 @@ const SearchMovie = () => {
                         </div>
                     )
                 }
+                
+                {
+                    (searchResult?.totalMovies > 0) && <Footer/>
+                }
+                </div>
 
-                <Footer/>
-            </div>
-            <div className="col-span-1">
+            <div className="hidden lg:block lg:col-span-1">
                 <SidebarSuggestions/>
             </div>
         </div>

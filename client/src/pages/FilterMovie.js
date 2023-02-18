@@ -85,18 +85,19 @@ const FilterMovie = () => {
     }, [currentPage])
 
     return ( 
-        <div className="grid grid-cols-5 gap-6">
-            <div className="col-start-1 col-end-2 h-screen">
+        <div className="md:grid lg:grid-cols-5 lg:gap-6 md:grid-cols-4">
+            <div className="hidden bg:block md:block col-start-1 col-end-2 h-screen">
                 <Sidebar/>
             </div>
-            <div className="col-start-2 col-span-3 overflow-y-scroll no-scrollbar h-screen">
+            <div className="md:col-start-2 md:col-span-3 md:overflow-y-scroll md:no-scrollbar h-screen">
                 <Header/>
 
-                <h2 ref={titleRef} className="inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
+                <div className="px-3 md:px-6 lg:px-0">
+                <h2 ref={titleRef} className="inline-block text-2xl md:text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
                     Filter Movie
                 </h2>
-                <div className="flex justify-between mb-6">
-                    <div>
+                <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between mb-6">
+                    <div className="md:flex md:flex-col md:items-center md:gap-2 lg:block">
                         <label htmlFor="type">Type:</label>
                         <select
                              id="type" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
@@ -109,7 +110,7 @@ const FilterMovie = () => {
                             <option value="hoathinh">Hoạt hình</option>
                         </select>
                     </div>
-                    <div>
+                    <div className="md:flex md:flex-col md:items-center md:gap-2 lg:block">
                         <label htmlFor="category">Thể loại:</label>
                         <select
                              id="category" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
@@ -124,7 +125,7 @@ const FilterMovie = () => {
                             }
                         </select>
                     </div>
-                    <div>
+                    <div className="md:flex md:flex-col md:items-center md:gap-2 lg:block">
                         <label htmlFor="country">Quốc gia:</label>
                         <select
                              id="country" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
@@ -137,7 +138,7 @@ const FilterMovie = () => {
                             <option value="Trung Quốc" className="">Trung Quốc</option>
                         </select>
                     </div>
-                    <div>
+                    <div className="md:flex md:flex-col md:items-center md:gap-2 lg:block">
                         <label htmlFor="year">Năm Sx:</label>
                         <select
                              id="year" className="bg-zinc-700 outline-none ml-3 p-2 rounded-md"
@@ -176,7 +177,7 @@ const FilterMovie = () => {
                 {
                     filterResult?.totalMovies > 0 &&
                     (
-                        <div className='grid grid-cols-4 gap-6 mt-7'>
+                        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-7'>
                             {
                                 filterResult?.moviesData?.map(movie => (
                                     <MovieItem key={movie._id} movieData={movie}/>
@@ -197,8 +198,8 @@ const FilterMovie = () => {
                                 breakClassName={'p-2'}
                                 forcePage={currentPage-1}
                                 pageCount={filterResult?.totalPage}
-                                marginPagesDisplayed={2}
-                                pageRangeDisplayed={3}
+                                marginPagesDisplayed={1}
+                                pageRangeDisplayed={1}
                                 onPageChange={handlePageClick}
                                 containerClassName={'flex gap-2 mt-10'}
                                 pageLinkClassName={'py-3 px-5 bg-zinc-700 rounded-md'}
@@ -220,10 +221,12 @@ const FilterMovie = () => {
                         </div>
                     )
                 }
+                </div>
 
                 <Footer/>
+                
             </div>
-            <div className="col-span-1">
+            <div className="hidden lg:block lg:col-span-1">
                 <SidebarSuggestions/>
             </div>
         </div>

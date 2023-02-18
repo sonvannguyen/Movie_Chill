@@ -1,7 +1,7 @@
 import axios from "axios"
 import configHeader from './configHeader'
 
-const BASE_URL_USER = 'http://localhost:5000/user'
+const BASE_URL_USER = 'https://moviechill.onrender.com/user'
 
 const userApi = {
     register: async(userData) => {

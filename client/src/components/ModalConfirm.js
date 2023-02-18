@@ -9,11 +9,11 @@ const ModalConfirm = ({onConfirm, handleCloseModal, message}) => {
     onConfirm()
   }
   return (
-    <div className="fixed z-[9999] bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
+    <div className="fixed z-[9999] top-[160px] md:bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center">
       <div className="fixed inset-0 transition-opacity">
         <div className="absolute inset-0 bg-zinc-700 opacity-75"></div>
       </div>
-      <div className="bg-white w-[420px] rounded-lg px-8 pt-8 pb-6 overflow-hidden shadow-xl transform transition-all">
+      <div className="open-modal bg-white md:w-[420px] rounded-lg px-8 pt-8 pb-6 overflow-hidden shadow-xl transform transition-all">
         <div 
           onClick={handleOnCancel}
           className='hover:bg-gray-300 cursor-pointer inline-block p-1 rounded-full absolute right-2 top-2'

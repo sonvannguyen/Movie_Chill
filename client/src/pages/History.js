@@ -26,6 +26,7 @@ const optionToast = {
 
 const History = () => {
     const userId = localStorage.getItem('movie_userId')
+    const accessToken = localStorage.getItem('movie_access_token')
     const [isOpenModalClearAll, setIsOpenModalClearAll] = useState(false)
     const [modalDeleteAMovie, setModalDeleteAMovie] = useState({
         isOpen: false,
@@ -33,13 +34,18 @@ const History = () => {
     })
 
     const {data: moviesData, refetch} = useQuery(
-        ['moviesBookmarked', userId],
-        () => userApi.getMoviesFromHistory(userId)
+        ['moviesHistory', userId],
+        () => userApi.getMoviesFromHistory(userId),
+        {
+            enabled: false
+        }
     )
 
     useEffect(() => {
-        refetch()
-    }, [userId])
+        if(userId && accessToken){
+            refetch()
+        }
+    }, [])
 
     const deleteMovieInHistory = useMutation(
         userApi.deleteAMovieInHistory,
@@ -84,17 +90,21 @@ const History = () => {
         setIsOpenModalClearAll(false)
     }
     return ( 
-        <div className="grid grid-cols-5 gap-6">
-            <div className="col-start-1 col-end-2 h-screen">
+        <div className="md:grid lg:grid-cols-5 lg:gap-6 md:grid-cols-4">
+            <div className="hidden bg:block md:block col-start-1 col-end-2 h-screen">
                 <Sidebar/>
             </div>
-            <div className="col-start-2 col-span-3 overflow-y-scroll no-scrollbar h-screen">
+            <div className="md:col-start-2 md:col-span-3 md:overflow-y-scroll md:no-scrollbar h-screen">
                 <Header/>
                 
-                <div className="flex justify-between items-end">
-                    <h2 className="inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
-                        {`HISTORY - Phim Đã Xem ( ${moviesData?.length} )`}
-                    </h2>
+                <div className="px-3 md:px-6 lg:px-0 flex justify-between items-end">
+                    <h4 className="hidden lg:inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
+                        {`HISTORY - Phim Đã Xem ( ${moviesData?.length || 0}  )`}
+                    </h4>
+
+                    <h4 className="lg:hidden inline-block text-2xl md:text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
+                        {`HISTORY ( ${moviesData?.length || 0}  )`}
+                    </h4>
                     {
                         (moviesData?.length > 0) &&
                         <button 
@@ -102,14 +112,14 @@ const History = () => {
                             className="flex items-center gap-2 p-2 rounded-xl border-[1px] border-[rgba(255,255,255,0.27)] hover:bg-red-500 transition duration-300 ease-in-out"
                         >
                             <AiOutlineDelete size={24}/>
-                            <span>Clear all history</span>
+                            <span className="text-sm md:text-base">Clear all history</span>
                         </button>
                     }
                 </div>
 
-                <div className='grid grid-cols-4 gap-6 mt-7 w-full'>
+                <div className='px-3 md:px-6 lg:px-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-7'>
                     {
-                        moviesData?.map(movie => (
+                        moviesData && moviesData?.map(movie => (
                             <MovieItem 
                                 key={movie._id} 
                                 inPageEdit="true" 
@@ -145,16 +155,20 @@ const History = () => {
                 {
                     (moviesData?.length === 0) && (
                         <div className="flex flex-col w-full mx-auto items-center min-h-[260px]">
-                            <img className="w-60 object-cover" src={icon_addmovie} alt="icon" />
-                            <p className="text-center text-lg italic text-gray-400 mt-[-10px]">
+                            <img className="w-40 md:w-60 object-cover" src={icon_addmovie} alt="icon" />
+                            <p className="text-center md:text-lg italic text-gray-400 mt-[-10px]">
                                 Bạn chưa xem phim nào.<br/> Hãy trải nghiệm ngay với Movie Chill nhé !
                             </p>
                         </div>
                     )
                 }
-                <Footer/>
+
+                {
+                    !(moviesData?.length === 0) && <Footer/>
+                }
+                
             </div>
-            <div className="col-span-1">
+            <div className="hidden lg:block lg:col-span-1">
                 <SidebarSuggestions/>
             </div>
 

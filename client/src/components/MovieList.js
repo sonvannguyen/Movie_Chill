@@ -15,12 +15,15 @@ const MovieList = () => {
         }
     )
 
+    const randomIndex = Math.floor(Math.random() * moviesGroupData?.length);
+    const randomGroupItem = moviesGroupData?.[randomIndex];
+
     return ( 
         <div>
-            <div className="h-96 overflow-hidden">
-                <SliderBanner/>
+            <div className="h-48 md:h-96 overflow-hidden">
+                <SliderBanner randomGroupItem = {randomGroupItem}/>
             </div>
-            <div className="mt-4">
+            <div className="mt-2 mx-3 md:mx-6 lg:p-0 lg:mx-0 lg:mt-4">
                 {
                     moviesGroupData?.map(movieGroup => (
                         <MovieGroup 
