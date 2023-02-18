@@ -11,8 +11,10 @@ router.get('/detail/:slug', movieController.getMovieDetail)
 router.put('/update/:movieId', movieController.updateMovie)
 router.delete('/delete/:movieId', movieController.deleteMovie)
 
-// router.post('/add/all', movieController.addMoviesFromFileData)
 router.post('/create/comment', auth, movieController.createCommentMovie)
 router.delete('/:movieId/comment/:commentId', auth, movieController.deleteCommentMovie)
+
+// router.post('admin/add/all', auth, movieController.addMoviesFromFileData)
+// router.post('admin/create/all/comment', auth, movieController.createCommentForAllMovie)
 
 module.exports = router

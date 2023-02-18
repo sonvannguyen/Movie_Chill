@@ -253,7 +253,25 @@ const movieController = {
             next(createError(500, error.message))
         }
     },
-
+    createCommentForAllMovie: async (req, res, next) => {
+        try {
+            const userId = '63eca9fea099b1e86a2b748a'
+            const content = 'Hãy chia sẻ ý kiến của bạn về bộ phim này bằng cách để lại một comment dưới đây. Nếu có bất kì lỗi gì khi xem phim, chúng tôi mong nhận được sự phản hồi từ mọi người để cải thiện website sớm nhất. Thanks for all 💛'
+            const movies = await MovieModel.find({})
+            
+            let index = 1;
+            movies.forEach( async (movie) => {
+                movie.comments.push({userComment: userId, commentContent: content, createAt: new Date()})
+                await movie.save()
+                console.log('done ', index)
+                index++
+            })
+            return res.json('complete')
+            
+        } catch (error) {
+            next(createError(500, error.message))
+        }
+    },
 }
 
 module.exports = movieController

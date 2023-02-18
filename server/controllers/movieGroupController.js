@@ -4,8 +4,7 @@ const movieGroupController = {
     getAllGroup: async(req, res, next) => {
         try {
             const dataMoviesGroup = await MovieGroupModel.find({})
-            .populate({path: 'movieList', select: 'name origin_name thumb_url slug type category'})
-
+            .populate({path: 'movieList', select: '-episodes -comments'})
             return res.json(dataMoviesGroup)
         } catch (error) {
             next(error)
