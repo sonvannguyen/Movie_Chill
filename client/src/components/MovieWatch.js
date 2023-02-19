@@ -137,7 +137,7 @@ const MovieWatch = ({movieData, episodes, handleOnSubmitCreateComment, refetchMo
                     allow="fullscreen"
                 >
                 </iframe>
-                <div className='px-3 lg:px-0 mt-5 flex justify-between items-center gap-2 pr-6 border-b-[0.3px] pb-5 border-zinc-700'>
+                <div className='px-5 lg:px-0 mt-5 flex justify-between items-center gap-2 pr-6 border-b-[0.3px] pb-5 border-zinc-700'>
                     <div>
                         <h3 className="text-xl md:text-4xl font-bold mb-2">{movieData?.origin_name}</h3>
                         <h4 className="text-sm md:text-xl opacity-80">{`( ${movieData?.name} )`}</h4>
@@ -161,13 +161,13 @@ const MovieWatch = ({movieData, episodes, handleOnSubmitCreateComment, refetchMo
                     Add to bookmark
                 </button>
 
-                <div className='px-3 lg:px-0 flex gap-2 items-center mt-5 text-red-400'>
+                <div className='px-5 lg:px-0 flex gap-2 items-center mt-5 text-red-400'>
                         <BiMessageDetail size={23}/>
                         <span className='text-lg' >Nội dung: </span>
                 </div>
                 <p dangerouslySetInnerHTML={{ __html: movieData?.content }} className='mt-2 px-4 italic opacity-70'></p>
 
-                <div className='px-3 lg:px-0'>
+                <div className='px-5 lg:px-0'>
                     <div className='flex gap-3 items-center my-6 text-red-400 '>
                         <RiMovieLine size={23}/>
                         <h4 className='text-lg'>Chọn tập phim :</h4>
@@ -205,7 +205,7 @@ const MovieWatch = ({movieData, episodes, handleOnSubmitCreateComment, refetchMo
             </div>
 
             {/* comments */}
-            <div className='px-3 lg:px-0'>
+            <div className='px-5 lg:px-0'>
                 <h4 
                     className="inline-block text-2xl font-bold pb-3 mb-6 mt-3 border-b-[1px] border-red-400"
                 >

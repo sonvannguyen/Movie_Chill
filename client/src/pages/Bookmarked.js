@@ -99,7 +99,7 @@ const Bookmarked = () => {
             <div className="md:col-start-2 md:col-span-3 md:overflow-y-scroll md:no-scrollbar h-screen">
                 <Header/>
                 
-                <div className="px-3 md:px-6 lg:px-0 flex justify-between items-end">
+                <div className="px-5 md:px-6 lg:px-0 flex justify-between items-end">
                     <h4 className="hidden lg:inline-block text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
                         {`Bookmarked - Phim Đã Lưu ( ${moviesData?.length || 0} ) `}
                     </h4>
@@ -121,7 +121,7 @@ const Bookmarked = () => {
                     }
                 </div>
 
-                <div className='px-3 md:px-6 lg:px-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-7'>
+                <div className='px-5 md:px-6 lg:px-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-7'>
                     {
                         moviesData?.map(movie => (
                             <MovieItem 
@@ -167,7 +167,7 @@ const Bookmarked = () => {
                     )
                 }
                 {
-                    !(moviesData?.length === 0) && <Footer/>
+                    (moviesData?.length > 0) && <Footer/>
                 }
                 
             </div>

@@ -8,7 +8,7 @@ import {BsSearch} from 'react-icons/bs'
 
 const SidebarSuggestions = () => {
 
-    const {data: moviesData} = useQuery(
+    const {data: moviesData, isLoading} = useQuery(
         ['moviesGroupSuggestion'], 
         () => movieApi.getMoviesByGroupName("Suggestions"), 
         {
@@ -16,6 +16,7 @@ const SidebarSuggestions = () => {
             cacheTime: 10 * 1000 * 60
         }
     )
+    const movieDataEmptyForSkeleton = [1,2,3,4]
 
     return ( 
         <div className='relative px-3 overflow-y-scroll no-scrollbar h-screen'>
@@ -31,9 +32,19 @@ const SidebarSuggestions = () => {
             </div>
 
             <div className='relative z-0'>
-                {moviesData?.sort(() => Math.random() - 0.5).map(movie => (
-                    <MovieItemSuggestion key={movie._id} movieData={movie} />
-                ))}
+                {
+                    !isLoading && moviesData?.sort(() => Math.random() - 0.5).map(movie => (
+                        <MovieItemSuggestion key={movie._id} movieData={movie} />
+                    ))
+                }
+            </div>
+
+            <div className='relative z-0'>
+                {
+                    isLoading && movieDataEmptyForSkeleton.map((movie, index) => (
+                        <MovieItemSuggestion key={index} isLoading={isLoading} />
+                    ))
+                }
             </div>
 
         </div>

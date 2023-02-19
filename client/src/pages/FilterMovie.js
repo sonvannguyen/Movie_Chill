@@ -92,7 +92,7 @@ const FilterMovie = () => {
             <div className="md:col-start-2 md:col-span-3 md:overflow-y-scroll md:no-scrollbar h-screen">
                 <Header/>
 
-                <div className="px-3 md:px-6 lg:px-0">
+                <div className="px-5 md:px-6 lg:px-0">
                 <h2 ref={titleRef} className="inline-block text-2xl md:text-3xl font-bold pb-3 mb-6 mt-8 border-b-[1px] border-red-400">
                     Filter Movie
                 </h2>

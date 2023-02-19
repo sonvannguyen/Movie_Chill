@@ -4,6 +4,7 @@ import FilterMovie from "../pages/FilterMovie";
 import History from "../pages/History";
 import Home from "../pages/Home";
 import MovieDetail from "../pages/MovieDetail";
+import NotFound from "../pages/NotFound";
 import SearchMovie from "../pages/SearchMovie";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
@@ -28,6 +29,7 @@ const RoutesApp = () => {
             <Route path="watch/:movieSlug/episode/:episode" element={<Watch/>}/>
             
             <Route path="/" element={<Home/>}/>
+            <Route path="*" element={<NotFound/>}/>
 
         </Routes>
      );

@@ -24,7 +24,9 @@ const Sidebar = () => {
     return ( 
         <div className='md:relative w-auto h-full border-r-[1px] border-[#ffffff1d] '>
             <div className='md:fixed left-5 top-2 lg:left-8 '>
-               <img className='hidden md:block w-36 cursor-pointer' src={logo} alt="logo" />
+                <Link to='/'>
+                    <img className='hidden md:block w-36 cursor-pointer' src={logo} alt="logo" />
+                </Link>
 
                <div>
                     <h3 className='text-xl mt-6 mb-4 font-bold'>MENU</h3>

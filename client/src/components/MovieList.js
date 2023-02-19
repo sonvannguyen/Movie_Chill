@@ -6,7 +6,7 @@ import movieApi from '../services/movieApi';
 
 
 const MovieList = () => {
-    const {data: moviesGroupData} = useQuery(
+    const {data: moviesGroupData, isLoading: isLoadingGroupMovie} = useQuery(
         ['moviesGroup'], 
         movieApi.getMoviesInGroup, 
         {
@@ -14,6 +14,7 @@ const MovieList = () => {
             cacheTime: 10 * 1000 * 60
         }
     )
+    const dataMovieGroupEmptyForSkeleton = [1,2,3,4,5,6,7,8]
 
     const randomIndex = Math.floor(Math.random() * moviesGroupData?.length);
     const randomGroupItem = moviesGroupData?.[randomIndex];
@@ -21,20 +22,34 @@ const MovieList = () => {
     return ( 
         <div>
             <div className="h-48 md:h-96 overflow-hidden">
-                <SliderBanner randomGroupItem = {randomGroupItem}/>
-            </div>
-            <div className="mt-2 mx-3 md:mx-6 lg:p-0 lg:mx-0 lg:mt-4">
                 {
-                    moviesGroupData?.map(movieGroup => (
+                    isLoadingGroupMovie ? (
+                        <div className='w-full h-96 bg-zinc-700 animate-pulse'></div>
+                    ): (
+                    <SliderBanner randomGroupItem = {randomGroupItem}/>
+                    )
+                }
+                
+            </div>
+            <div className="mt-2 mx-4 md:mx-6 lg:p-0 lg:mx-0 lg:mt-4">
+                {
+                    !isLoadingGroupMovie && moviesGroupData?.map(movieGroup => (
                         <MovieGroup 
                             movieGroupName={movieGroup?.groupName} 
                             icon={<BiTrendingUp size={20}/>} 
                             moviesdata={movieGroup?.movieList}
                             key={movieGroup?._id}
+                            isLoading={isLoadingGroupMovie}
                         />
                     ))
                 }
-             
+                {
+                    isLoadingGroupMovie &&
+                    <MovieGroup 
+                        isLoading={isLoadingGroupMovie}
+                        moviesdata={dataMovieGroupEmptyForSkeleton}
+                    />
+                }
             </div>
         </div>
      );

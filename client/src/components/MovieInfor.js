@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
+import { Link , useLocation} from 'react-router-dom';
 import { useMutation} from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,6 +24,13 @@ const optionToast = {
 }
 
 const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
+    const topRef = useRef(null)
+    const { pathname } = useLocation()
+
+    useEffect(() => {
+        topRef?.current.scrollIntoView({ behavior: 'smooth'})
+    }, [pathname])
+
     const movieInforTemplate = [
         {
             title: "Type :",
@@ -87,8 +95,9 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
         }
     }
     return (  
-        <div>
+        <div className='relative'>
             {/* Banner */}
+            <div className='absolute top-[-100px]' ref={topRef}></div>
             <div>
                 <div className="relative h-[230px] md:h-[330px] lg:h-[440px]">
                     {
@@ -176,7 +185,7 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
 
             {/* infor  */}
 
-            <div className='bg-[rgba(0,0,0.1)] grid grid-cols-2 md:grid md:grid-cols-4 py-4 px-3 '>
+            <div className='bg-[rgba(0,0,0.1)] grid grid-cols-2 md:grid md:grid-cols-4 py-4 px-5 '>
                 <div className='pt-2 md:pt-6 md:pl-5 lg:pl-9'>
                     <h4 className='ml-2 md:mb-2 text-xl text-red-300 md:text-[#b6e5ff]'>RATING</h4>
                     <span className='ml-5 mb-2 font-bold md:hidden text-red-300'>8.3/10</span>
@@ -231,7 +240,7 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
                 </div>
             </div>
 
-            <div className='px-3 md:px-6 lg:px-0'>
+            <div className='px-5 md:px-6 lg:px-0'>
                 <div className='mt-4'>
                     <span className='font-bold text-xl uppercase'>Nội dung :</span>
                     <p dangerouslySetInnerHTML={{ __html: movieDetailData?.content }} className='mt-3 px-4 mb-8 italic opacity-70'></p>

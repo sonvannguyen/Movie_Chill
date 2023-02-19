@@ -11,7 +11,7 @@ const slidesPerViewByBreakpoints = {
     'lg': 4.3,
 };
 
-const MovieGroup = ({movieGroupName, icon, moviesdata}) => {
+const MovieGroup = ({movieGroupName, icon, moviesdata, isLoading}) => {
     const [slider, setSlider] = useState({
         slidesPerView: slidesPerViewByBreakpoints.sm,
         gap: 16
@@ -61,14 +61,23 @@ const MovieGroup = ({movieGroupName, icon, moviesdata}) => {
       
     return ( 
         <div className="mb-4">
-            <div className="flex gap-3 items-center">
-                <div className="hidden md:block">{icon}</div>
-                <h2 
-                    className="inline-block text-2xl font-bold pb-3 mb-4 md:mb-6 md:mt-3 border-b-[1px] border-red-400"
-                >
-                    {movieGroupName}
-                </h2>
-            </div>
+            {
+                isLoading ? 
+                (
+                    <div className="animate-pulse w-36 h-8 bg-zinc-700 rounded-md mb-4 mt-3"></div>
+                ) : 
+                (
+                    <div className="flex gap-3 items-center">
+                        <div className="hidden md:block">{icon}</div>
+                        <h2 
+                            className="inline-block text-2xl font-bold pb-3 mb-4 md:mb-6 md:mt-3 border-b-[1px] border-red-400"
+                        >
+                            {movieGroupName}
+                        </h2>
+                    </div>
+                )
+            }
+            
             <div>
                 <Swiper 
                     navigation={true} 
@@ -77,9 +86,13 @@ const MovieGroup = ({movieGroupName, icon, moviesdata}) => {
                     spaceBetween={slider.gap}
                 >
                     {
-                        moviesdata?.map(movie => (
-                            <SwiperSlide key={movie._id}>
-                                <MovieItem movieData={movie}/>
+                        moviesdata?.map((movie, index) => (
+                            <SwiperSlide key={movie._id || index}>
+                                <MovieItem 
+                                    movieData={movie} 
+                                    isLoading={isLoading} 
+                                    isSkeleton={(movieGroupName !== 'Popular') ? true : false}
+                                />
                             </SwiperSlide>
                         ))
                     }
