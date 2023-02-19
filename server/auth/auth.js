@@ -8,6 +8,7 @@ const auth = async (req, res, next) => {
     const {userId} = data
     const user = await UserModel.findById(userId)
     if(user){
+      req.userId = userId
       next()
     }
     else {

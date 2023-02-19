@@ -1,4 +1,5 @@
 const MovieGroupModel = require('../models/MovieGroup')
+const UserModel = require('../models/User')
 
 const movieGroupController = {
     getAllGroup: async(req, res, next) => {
@@ -13,12 +14,20 @@ const movieGroupController = {
     createNewMovieGroup: async(req, res, next) => {
         try {
             const {groupName}= req.body
-            const newMovieGroup = new MovieGroupModel({groupName})
-            await newMovieGroup.save()
+            const userId = req.userId
+            const user = await UserModel.findById(userId)
 
-            return res.json({
-                newMovieGroup
-            })
+            if(user && user.isAdmin){
+                const newMovieGroup = new MovieGroupModel({groupName})
+                await newMovieGroup.save()
+    
+                return res.json({
+                    newMovieGroup
+                })
+            }
+            else {
+                return res.json('Only admin can do it !')
+            }
         } catch (error) {
             next(error)
         }
@@ -26,13 +35,22 @@ const movieGroupController = {
     addMovieToMovieGroup: async(req, res, next) => {
         try {
             const {groupName, movieId}= req.body
-            const movieGroup = await MovieGroupModel.findOne({groupName})
-            movieGroup.movieList.push(movieId)
+            const userId = req.userId
+            const user = await UserModel.findById(userId)
 
-            await movieGroup.save()
-            return res.json({
-                movieGroup
-            })
+            if(user && user.isAdmin){
+                const movieGroup = await MovieGroupModel.findOne({groupName})
+                movieGroup.movieList.push(movieId)
+    
+                await movieGroup.save()
+                return res.json({
+                    movieGroup
+                })
+            }
+            else {
+                return res.json('Only admin can do it !')
+            }
+            
         } catch (error) {
             next(error)
         }
@@ -56,10 +74,16 @@ const movieGroupController = {
         try {
             const {movieGroupId} = req.params
             const {groupName} = req.body
-            
-            const movieGroup = await MovieGroupModel.findByIdAndUpdate(movieGroupId, {groupName}, {new: true})
-            
-            return res.json(movieGroup)
+            const userId = req.userId
+
+            const user = await UserModel.findById(userId)
+            if(user && user.isAdmin){
+                const movieGroup = await MovieGroupModel.findByIdAndUpdate(movieGroupId, {groupName}, {new: true})
+                return res.json(movieGroup)
+            }
+            else {
+                return res.json('Only admin can do it !')
+            }
             
         } catch (error) {
             next(error)
@@ -68,27 +92,41 @@ const movieGroupController = {
     deleteGroup: async(req, res, next) => {
         try {
             const {movieGroupId} = req.params
-            await MovieGroupModel.findByIdAndDelete(movieGroupId)
-            return res.json({message: "Delete group success"})
+            const userId = req.userId
 
+            const user = await UserModel.findById(userId)
+            if(user && user.isAdmin){
+                await MovieGroupModel.findByIdAndDelete(movieGroupId)
+                return res.json({message: "Delete group success"})
+            }
+            else {
+                return res.json('Only admin can do it !')
+            }
         } catch (error) {
             next(error)
         }
     },
     deleteMovieInGroup: async(req, res, next) => {
-        
         try {
             const {movieGroupId, movieId} = req.params
-            const movieGroup = await MovieGroupModel.findById(movieGroupId)
+            const userId = req.userId
 
-            movieGroup.movieList = movieGroup.movieList.filter(movie => movie._id 
-            != movieId)
-
-            await movieGroup.save()
-
-            return res.json({
-                movieGroup
-            })
+            const user = await UserModel.findById(userId)
+            if(user && user.isAdmin){
+                const movieGroup = await MovieGroupModel.findById(movieGroupId)
+    
+                movieGroup.movieList = movieGroup.movieList.filter(movie => movie._id 
+                != movieId)
+    
+                await movieGroup.save()
+    
+                return res.json({
+                    movieGroup
+                })
+            }
+            else {
+                return res.json('Only admin can do it !')
+            }
         } catch (error) {
             next(error)
         }
