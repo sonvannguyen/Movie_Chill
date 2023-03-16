@@ -1,8 +1,8 @@
 import axios from "axios";
 import getConfigHeader from "./configHeader";
 
-const BASE_URL_MOVIEGR = 'https://moviechill.onrender.com/admin/movieGroup'
-const BASE_URL_MOVIE = 'https://moviechill.onrender.com/movie'
+const BASE_URL_MOVIEGR = 'https://shy-red-cocoon-cape.cyclic.app/admin/movieGroup'
+const BASE_URL_MOVIE = 'https://shy-red-cocoon-cape.cyclic.app/movie'
 
 const movieApi = {
   getMoviesInGroup: async () => {

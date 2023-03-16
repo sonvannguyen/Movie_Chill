@@ -1,7 +1,7 @@
 import axios from "axios";
 import getConfigHeader from "./configHeader";
 
-const BASE_URL_USER = 'https://moviechill.onrender.com/user'
+const BASE_URL_USER = 'https://shy-red-cocoon-cape.cyclic.app/user'
 
 const userApi = {
   register: async (userData) => {

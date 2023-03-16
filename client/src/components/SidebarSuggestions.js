@@ -33,7 +33,7 @@ const SidebarSuggestions = () => {
 
             <div className='relative z-0'>
                 {
-                    !isLoading && moviesData?.sort(() => Math.random() - 0.5).map(movie => (
+                    !isLoading && moviesData?.map(movie => (
                         <MovieItemSuggestion key={movie._id} movieData={movie} />
                     ))
                 }
