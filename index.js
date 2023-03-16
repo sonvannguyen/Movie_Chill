@@ -54,13 +54,13 @@ app.use((err, req, res, next) => {
     })
 })
 
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT || 5000, () => {
     console.log("start ")
 })
 
 const io = socket(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://in4me.netlify.app",
     },
 });
 

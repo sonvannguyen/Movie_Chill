@@ -47,7 +47,7 @@ const userController = {
                 user.password
             );
             if(isPasswordHashed) {
-                const accessToken = jwt.sign({userId: user._id, username: user.username}, process.env.JWT_SECRET, { expiresIn: "4h"})
+                const accessToken = jwt.sign({userId: user._id, username: user.username}, process.env.JWT_SECRET, { expiresIn: "48h"})
                 return res.status(200).json({user, accessToken})
             }
             else {
@@ -75,8 +75,24 @@ const userController = {
         try {
             const {username} = req.body
 
-            const user = await UserModel.findOne({username}).select('avatar name username')
-            if(user){
+            const query = {
+                $or: [
+                    {
+                        name: {
+                            $regex: username, $options: "i"
+                        }
+                    },
+                    {
+                        username: {
+                            $regex: username, $options: "i"
+                        }
+                    },
+                ]
+            }
+            const user = await UserModel.find(query).select('avatar name username')
+            const totalUserResult = await UserModel.countDocuments(query)
+
+            if(totalUserResult > 0){
                 return res.status(200).json(user)
             }
             return res.json(`Not found user ${username}`)
