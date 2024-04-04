@@ -73,7 +73,7 @@ const movieController = {
             
             return res.json(movieData)
         } catch (error) {
-            next(error)
+                  next(error)
         }
     },
     updateMovie: async (req, res, next) => {
