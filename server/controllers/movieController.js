@@ -1,6 +1,7 @@
 const fs = require('fs');
 const MovieModel = require('../models/Movie')
 const MovieGroupModel = require('../models/MovieGroup')
+const CommentModel = require('../models/Comment')
 const createError = require('http-errors')
 
 
@@ -59,21 +60,26 @@ const movieController = {
         try {
             // handle array category when send many values in body
             const {slug} = req.params
-            const movieData = await MovieModel.findOne({slug}).populate({
-                path: 'comments',
-                populate: {
-                    path: 'userComment',
-                    select: 'username avatar isAdmin'
-                }
-            })
+            const movieData = await MovieModel.findOne({slug})
 
             if(!movieData){
                 res.status(404).json('Not found movie')
             }
-            
-            return res.json(movieData)
+
+            const commentData = await CommentModel.find({
+                movieId: movieData._id
+            }).populate({
+                path: 'userComment',
+                select: 'username avatar isAdmin'
+            })
+
+            const mergedData = {
+                movie: movieData,
+                comments: commentData
+              };
+            return res.json(mergedData)
         } catch (error) {
-                  next(error)
+                next(error)
         }
     },
     updateMovie: async (req, res, next) => {
@@ -109,23 +115,10 @@ const movieController = {
     },
     getAllMovie: async(req, res, next) => {
         try {
-            const page = parseInt(req.query.page) || 1
-            const moviesPerPage = parseInt(req.query.limit) || 12
-
-            let totalMovies = await MovieModel.countDocuments()
-            let totalPage = Math.ceil(totalMovies / moviesPerPage)
-
             const moviesData = await MovieModel.find({})
-            .skip((moviesPerPage * page) - moviesPerPage)
-            .limit(moviesPerPage)
-
             return res.json({
-                totalPage,
-                currentPage: page,
-                moviesPerPage,
                 moviesData
             })
-
         } catch (error) {
             next(error)
         }
@@ -217,40 +210,6 @@ const movieController = {
             })
         } catch (error) {
             next(error)
-        }
-    },
-    createCommentMovie: async (req, res, next) => {
-        try {
-            const {userId, movieId, content} = req.body
-            const movie = await MovieModel.findById(movieId)
-            if(!movie){
-                return res.status(404).json('Not found movie')
-            }
-
-            movie.comments.push({userComment: userId, commentContent: content, createAt: new Date()})
-            await movie.save()
-            return res.json(movie.comments)
-            
-        } catch (error) {
-            next(createError(500, error.message))
-        }
-    },
-    deleteCommentMovie: async (req, res, next) => {
-        try {
-            const {commentId, movieId} = req.params
-
-            const movie = await MovieModel.findById(movieId)
-            if(!movie){
-                return res.status(404).json('Not found movie')
-            }
-
-            movie.comments = movie.comments.filter(comment => comment._id != commentId)
-            await movie.save()
-
-            return res.json(movie.comments)
-            
-        } catch (error) {
-            next(createError(500, error.message))
         }
     },
     createCommentForAllMovie: async (req, res, next) => {

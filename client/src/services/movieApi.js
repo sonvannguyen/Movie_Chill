@@ -1,8 +1,8 @@
 import axios from "axios";
 import getConfigHeader from "./configHeader";
 
-const BASE_URL_MOVIEGR = 'https://shy-red-cocoon-cape.cyclic.app/admin/movieGroup'
-const BASE_URL_MOVIE = 'https://shy-red-cocoon-cape.cyclic.app/movie'
+const BASE_URL_MOVIEGR = 'http://localhost:5000/admin/movieGroup'
+const BASE_URL_MOVIE = 'http://localhost:5000/movie'
 
 const movieApi = {
   getMoviesInGroup: async () => {
@@ -24,7 +24,10 @@ const movieApi = {
   getMovieDetail: async (movieSlug) => {
     try {
       const res = await axios.get(`${BASE_URL_MOVIE}/detail/${movieSlug}`);
-      return res.data;
+      return {
+        ...res.data?.movie,
+        comments: res.data?.comments ?? []
+      };
     } catch (error) {
       handleError(error);
     }

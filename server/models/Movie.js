@@ -89,6 +89,12 @@ const MovieSchema = new Schema({
             }
         }
     ],
+    users_follow: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 }, {timestamps: true})
 
 const MovieModel = mongoose.model('Movie', MovieSchema)
