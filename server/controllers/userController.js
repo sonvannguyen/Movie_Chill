@@ -236,7 +236,7 @@ const userController = {
     try {
       const userId = req.userId;
       const { commentId, content } = req.body;
-  
+
       await CommentModel.updateOne(
         { _id: commentId, userComment: userId },
         { commentContent: content }
@@ -306,10 +306,18 @@ const userController = {
   },
   getAllReportComment: async (req, res, next) => {
     try {
-      const comments = await CommentModel.find({ totalReport: { $gt: 1 } })
+      const commentsReport = await CommentModel.find({ totalReport: { $gt: 1 } })
+        .populate({
+          path: "userComment",
+          select: "username avatar",
+        })
+        .populate({
+          path: "movieId",
+          select: "name origin_name",
+        })
         .sort({ totalReport: -1 });
-  
-      return res.json({ comments });
+
+      return res.json({ commentsReport });
     } catch (error) {
       next(createError(500, error.message));
     }
