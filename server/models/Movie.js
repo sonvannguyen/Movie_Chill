@@ -75,20 +75,10 @@ const MovieSchema = new Schema({
             link_m3u8: String
         },
     ],
-    comments: [
-        {   
-            userComment: {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            },
-            commentContent: {
-                type: String
-            },
-            createAt: {
-                type: Object
-            }
-        }
-    ],
+    total_view: {
+        type: Number,
+        default: 0
+    },
     users_follow: [
         {
             type: Schema.Types.ObjectId,

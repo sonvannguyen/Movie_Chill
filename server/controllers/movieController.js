@@ -134,7 +134,9 @@ const movieController = {
   },
   getAllMovie: async (req, res, next) => {
     try {
-      const moviesData = await MovieModel.find({});
+      const moviesData = await MovieModel.find({}).select(
+        "name thumb_url type country total_view slug"
+      );
       return res.json({
         moviesData,
       });
