@@ -43,11 +43,7 @@ const movieController = {
 
   createMovie: async (req, res, next) => {
     try {
-      // handle array category when send many values in body
-      const { category: categoryRaw } = req.body;
-      category = categoryRaw?.split(",");
-
-      const newMovie = new MovieModel({ ...req.body, category });
+      const newMovie = new MovieModel({ ...req.body });
       await newMovie.save();
 
       return res.json({ newMovie });
@@ -135,7 +131,7 @@ const movieController = {
   getAllMovie: async (req, res, next) => {
     try {
       const moviesData = await MovieModel.find({}).select(
-        "name thumb_url type country total_view slug"
+        "name thumb_url type country total_view slug updatedAt"
       );
       return res.json({
         moviesData,
