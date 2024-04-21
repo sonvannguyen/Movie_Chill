@@ -248,12 +248,23 @@ const userController = {
   },
   reportCommentMovie: async (req, res, next) => {
     try {
-      const updatedComment = await CommentModel.findOneAndUpdate(
-        { _id: req.body.commentId },
-        { $inc: { totalReport: 1 } },
-        { new: true }
+      const comment = await CommentModel.findById(req.body.commentId) 
+      if(!comment) {
+        return res.json({ message: "Comment not found" });
+      }
+
+      if(comment.usersReport.includes(req.body.userReport)){
+        return res.json({ message: "Report comment success" });
+      }
+
+      await CommentModel.findByIdAndUpdate(
+        req.body.commentId,
+        {
+          $inc: { totalReport: 1 },
+          $push: { usersReport: req.body.userReport },
+        },
+        { new: true } // Return the updated document
       );
-      updatedComment.save();
 
       return res.json({ message: "Report comment success" });
     } catch (error) {

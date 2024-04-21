@@ -67,31 +67,6 @@ const movieApi = {
       handleError(error);
     }
   },
-  createNewComment: async (commentData) => {
-    try {
-      const configHeader = getConfigHeader()
-      const res = await axios.post(
-        `${BASE_URL_MOVIE}/create/comment`,
-        commentData,
-        configHeader
-      );
-      return res.data;
-    } catch (error) {
-      handleError(error);
-    }
-  },
-  deleteComment: async ({ movieId, commentId }) => {
-    try {
-      const configHeader = getConfigHeader()
-      const res = await axios.delete(
-        `${BASE_URL_MOVIE}/${movieId}/comment/${commentId}`,
-        configHeader
-      );
-      return res.data;
-    } catch (error) {
-      handleError(error);
-    }
-  },
 };
 
 const handleError = (err) => {

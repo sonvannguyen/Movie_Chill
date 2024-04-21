@@ -15,6 +15,12 @@ const CommentSchema = new Schema({
         required: true,
         trim: true,
     },
+    usersReport: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
     totalReport: {
         type: Number,
         default: 0

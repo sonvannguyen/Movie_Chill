@@ -1,7 +1,7 @@
 import axios from "axios";
 import getConfigHeader from "./configHeader";
 
-const BASE_URL_USER = 'http://localhost:5000/user'
+const BASE_URL_USER = "http://localhost:5000/user";
 
 const userApi = {
   register: async (userData) => {
@@ -22,7 +22,7 @@ const userApi = {
   },
   getUserById: async (userId) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.get(`${BASE_URL_USER}/${userId}`, configHeader);
       console.log(`${BASE_URL_USER}/${userId}`);
       return res.data;
@@ -32,7 +32,7 @@ const userApi = {
   },
   getMoviesFromListMoviesBookmark: async (userId) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.get(
         `${BASE_URL_USER}/bookmarked/${userId}`,
         configHeader
@@ -44,7 +44,7 @@ const userApi = {
   },
   addMovieToMoviesBookmark: async (movieData) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.post(
         `${BASE_URL_USER}/add/bookmark`,
         movieData,
@@ -57,7 +57,7 @@ const userApi = {
   },
   deleteAllBookmarks: async (userId) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.delete(
         `${BASE_URL_USER}/${userId}/delete/all/bookmarked`,
         configHeader
@@ -69,7 +69,7 @@ const userApi = {
   },
   deleteAMovieInBookmarks: async ({ userId, movieId }) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.delete(
         `${BASE_URL_USER}/${userId}/delete/bookmarked/${movieId}`,
         configHeader
@@ -82,7 +82,7 @@ const userApi = {
 
   getMoviesFromHistory: async (userId) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.get(
         `${BASE_URL_USER}/history/${userId}`,
         configHeader
@@ -94,7 +94,7 @@ const userApi = {
   },
   addMovieToHistory: async (movieData) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.post(
         `${BASE_URL_USER}/add/history`,
         movieData,
@@ -107,7 +107,7 @@ const userApi = {
   },
   deleteAllHistory: async (userId) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.delete(
         `${BASE_URL_USER}/${userId}/delete/all/history`,
         configHeader
@@ -119,7 +119,7 @@ const userApi = {
   },
   deleteAMovieInHistory: async ({ userId, movieId }) => {
     try {
-      const configHeader = getConfigHeader()
+      const configHeader = getConfigHeader();
       const res = await axios.delete(
         `${BASE_URL_USER}/${userId}/delete/history/${movieId}`,
         configHeader
@@ -128,6 +128,41 @@ const userApi = {
     } catch (err) {
       return err.message;
     }
+  },
+  createNewComment: async (commentData) => {
+    const configHeader = getConfigHeader();
+    const res = await axios.post(
+      `${BASE_URL_USER}/create/comment`,
+      commentData,
+      configHeader
+    );
+    return res.data;
+  },
+  deleteComment: async ({ movieId, commentId }) => {
+    const configHeader = getConfigHeader();
+    const res = await axios.delete(
+      `${BASE_URL_USER}/delete/comment/${commentId}`,
+      configHeader
+    );
+    return res.data;
+  },
+  reportComment: async (dataReport) => {
+    const configHeader = getConfigHeader();
+    const res = await axios.post(
+      `${BASE_URL_USER}/report/comment`,
+      dataReport,
+      configHeader
+    );
+    return res.data;
+  },
+  followMovie: async (dataFollow) => {
+    const configHeader = getConfigHeader();
+    const res = await axios.post(
+      `${BASE_URL_USER}/follow`,
+      dataFollow,
+      configHeader
+    );
+    return res.data;
   },
 };
 

@@ -104,7 +104,7 @@ const MovieWatch = ({movieData, episodes, handleOnSubmitCreateComment, refetchMo
     })
 
     const deleteComment = useMutation(
-        movieApi.deleteComment,
+        userApi.deleteComment,
         {
             onSuccess: (data) => {
                 refetchMovieDetail()

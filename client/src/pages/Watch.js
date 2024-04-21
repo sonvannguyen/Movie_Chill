@@ -37,7 +37,7 @@ const Watch = () => {
 
     // handle create comment movie
     const createComment = useMutation(
-        movieApi.createNewComment,
+        userApi.createNewComment,
         {
             onSuccess: () => {
                 refetchMovieDetail()

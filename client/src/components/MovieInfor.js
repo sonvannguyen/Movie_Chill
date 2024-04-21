@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Link , useLocation} from 'react-router-dom';
 import { useMutation} from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,7 +7,7 @@ import {IoMdShareAlt} from 'react-icons/io'
 import {BsBookmarkHeart, BsPlayBtn} from 'react-icons/bs'
 import { CircularProgressbar, buildStyles  } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-
+import { IoStatsChart } from "react-icons/io5";
 import MovieGroup from './MovieGroup';
 import userApi from '../services/userApi';
 
@@ -77,9 +77,42 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
         }
     )
 
+    const followMovie = useMutation(
+        userApi.followMovie,
+    )
+
     const handleBookmark = () => {
         if(accessToken){
             addMovieToBookmark.mutate({userId, movieId: movieDetailData?._id})
+        }
+        else {
+            toast.error('Bạn cần Đăng nhập để thực hiện.', {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+        }
+    }
+
+    const [isFollow , setIsFollow] = useState(
+        movieDetailData?.users_follow?.includes(userId)
+    )
+
+    useEffect(() => {
+        setIsFollow(movieDetailData?.users_follow?.includes(userId))
+    }, [movieDetailData])
+
+    const handleFollowMovie = () => {
+        if(accessToken){
+            if(!isFollow) {
+                followMovie.mutate({userId, movieId: movieDetailData?._id})
+            }
+            setIsFollow(true)
         }
         else {
             toast.error('Bạn cần Đăng nhập để thực hiện.', {
@@ -148,6 +181,13 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
 
                     <div className='absolute right-5 top-3 flex gap-3'>
                         <div 
+                            onClick={handleFollowMovie}
+                            className=' flex gap-1 group relative rounded-lg bg-[rgba(0,0,0,0.6)] p-3 cursor-pointer hover:bg-black shadow-primary'
+                        >
+                            { isFollow ? 'Followed' : '+ Follow'}
+                        </div>
+                        
+                        <div 
                             onClick={handleBookmark}
                             className='group relative bg-[rgba(0,0,0,0.6)] p-3 rounded-full cursor-pointer hover:bg-black shadow-primary'
                         >
@@ -169,6 +209,12 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
                                 movieDetailData?.name &&
                                 <h4 className='text-sm md:text-lg md:mt-3 text-gray-300'>{`( ${movieDetailData?.name } )`}</h4>
                             }
+
+                            <div className='flex items-center gap-1 mt-2'>
+                                <IoStatsChart/>
+
+                                <h4>Views: {movieDetailData?.total_view}</h4>
+                            </div>
                         </div>
 
                         <Link 

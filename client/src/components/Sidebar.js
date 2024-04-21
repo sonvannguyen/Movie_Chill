@@ -3,6 +3,7 @@ import {AiOutlineHome, AiOutlineSearch,AiOutlineHistory} from 'react-icons/ai'
 import {BiFilterAlt} from 'react-icons/bi'
 import {BsBookmarkCheck} from 'react-icons/bs'
 import { CiLogout, CiLogin} from 'react-icons/ci'
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 import logo from '../assets/images/logo.png'
 
@@ -33,25 +34,36 @@ const Sidebar = () => {
 
                     <NavLink to='/' className={navItem}>
                         <AiOutlineHome size={22}/>
-                        <span className='lg:text-lg'>Home</span>
+                        <span className='lg:text-lg'>Trang chủ</span>
                     </NavLink>
 
                     <NavLink to='/search' className={navItem}>
                         <AiOutlineSearch size={22}/>
-                        <span className='lg:text-lg'>Search</span>
+                        <span className='lg:text-lg'>Tìm kiếm phim</span>
                     </NavLink>
 
                     <NavLink to='/filter' className={navItem}>
                         <BiFilterAlt size={22}/>
-                        <span className='lg:text-lg'>Filter</span>
+                        <span className='lg:text-lg'>Lọc phim</span>
                     </NavLink>
 
                     <h3 className='text-xl mt-10 mb-4 font-bold'>PERSONAL</h3>
 
                     <NavLink to='/history' className={navItem}>
+                        <IoIosNotificationsOutline size={26}/>
+                        <div className='flex flex-col'>
+                            <span className='lg:text-lg'>Thông báo</span>
+                            {
+                                !accessToken && 
+                                <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  
+                            }
+                        </div>
+                    </NavLink>
+
+                    <NavLink to='/history' className={navItem}>
                         <AiOutlineHistory size={22}/>
                         <div className='flex flex-col'>
-                            <span className='lg:text-lg'>History</span>
+                            <span className='lg:text-lg'>Lịch sử xem</span>
                             {
                                 !accessToken && 
                                 <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  
@@ -62,7 +74,7 @@ const Sidebar = () => {
                     <NavLink to='/bookmarked' className={navItem}>
                         <BsBookmarkCheck size={22}/>
                         <div className='flex flex-col'>
-                             <span className='lg:text-lg'>Bookmarked</span>
+                             <span className='lg:text-lg'>Phim đã lưu</span>
                             {
                                 !accessToken && 
                                 <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  
