@@ -4,11 +4,15 @@ import {BiFilterAlt} from 'react-icons/bi'
 import {BsBookmarkCheck} from 'react-icons/bs'
 import { CiLogout, CiLogin} from 'react-icons/ci'
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
+import notificationApi from "../services/notificationApi";
 
 import logo from '../assets/images/logo.png'
 
 const Sidebar = () => {
     const navigate = useNavigate()
+    const userId = localStorage.getItem("movie_userId");
     const accessToken = localStorage.getItem('movie_access_token')
     // change class name nav link when active
     const navItem = ({ isActive }) => {
@@ -21,6 +25,20 @@ const Sidebar = () => {
         localStorage.removeItem('username')
         navigate('/login')
     }
+
+    const { data: notiData, refetch } = useQuery(
+        ["notification-auto", userId],
+        () => notificationApi.getNotification(userId, "bySystem"),
+        {
+          enabled: false,
+        }
+    );
+    
+    useEffect(() => {
+        if (userId && accessToken) {
+            refetch();
+        }
+    }, []);
 
     return ( 
         <div className='md:relative w-auto h-full border-r-[1px] border-[#ffffff1d] '>
@@ -49,10 +67,10 @@ const Sidebar = () => {
 
                     <h3 className='text-xl mt-10 mb-4 font-bold'>PERSONAL</h3>
 
-                    <NavLink to='/history' className={navItem}>
+                    <NavLink to='/notification' className={navItem}>
                         <IoIosNotificationsOutline size={26}/>
                         <div className='flex flex-col'>
-                            <span className='lg:text-lg'>Thông báo</span>
+                            <span className='lg:text-lg'>{ `Thông báo ${notiData?.filter(noti => noti.status == "UNREAD")?.length > 0 ? `(${notiData?.filter(noti => noti.status == "UNREAD")?.length})` : ''}`}</span>
                             {
                                 !accessToken && 
                                 <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  

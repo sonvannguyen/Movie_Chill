@@ -50,7 +50,7 @@ const Comment = ({commentData, handleOpenModal}) => {
                             }
 
                             <span className="italic text-xs ml-3 text-zinc-400">
-                                {moment(commentData?.createAt).format('MMMM Do , h:mm a')}
+                                {moment(commentData?.updatedAt).format('YYYY-MM-DD HH:mm:ss')}
                             </span>
 
                         </div>

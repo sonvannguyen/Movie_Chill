@@ -90,13 +90,16 @@ const movieController = {
       });
       await newMovie.save();
 
+      // handle send notification for user follow
       if (
         req.body?.episodes?.length &&
-        movie?.episodes?.length !== req.body?.episodes?.length
+        movie?.episodes?.length < req.body?.episodes?.length
       ) {
-        const notiContent = `Phim ${movie.name} đã có tập mới. Hãy xem ngay nhé <3`;
+        const notiContent = `Phim "${movie.name}" đã có Tập ${req.body?.episodes?.length}. Hãy xem ngay nhé ♥`;
+        const urlMovie = `/watch/${movie.slug}/episode/${req.body?.episodes?.length}`
         await notificationController.createNotificationForMovie(
           notiContent,
+          urlMovie,
           movie.users_follow
         );
       }

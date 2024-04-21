@@ -10,6 +10,7 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Watch from "../pages/Watch";
 import PrivateRoutes from "./PrivateRoutes";
+import Notification from "../pages/Notification";
 
 const RoutesApp = () => {
     return ( 
@@ -17,6 +18,7 @@ const RoutesApp = () => {
             <Route element={<PrivateRoutes/>}>
                 <Route path="history" element={<History/>}/>
                 <Route path="bookmarked" element={<Bookmarked/>}/>
+                <Route path="notification" element={<Notification/>}/>
             </Route>
 
             <Route path="filter" element={<FilterMovie/>}/>

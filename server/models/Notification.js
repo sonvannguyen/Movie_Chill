@@ -11,12 +11,10 @@ const NotificationSchema = new Schema(
       type: String,
       required: true,
     },
-    target: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    urlMovie: {
+      type: String,
+      required: false,
+    }
   },
   { timestamps: true }
 );
