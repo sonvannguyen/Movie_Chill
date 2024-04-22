@@ -136,9 +136,7 @@ const movieController = {
       const moviesData = await MovieModel.find({}).select(
         "name thumb_url type country total_view slug updatedAt"
       );
-      return res.json({
-        moviesData,
-      });
+      return res.json(moviesData);
     } catch (error) {
       next(error);
     }

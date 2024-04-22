@@ -73,7 +73,7 @@ const notificationController = {
   getNotificationHistoryForAdmin: async (req, res, next) => {
     try {
       const notificationHistory = await NotificationModel.find({});
-      return res.json({ notificationHistory });
+      return res.json(notificationHistory);
     } catch (error) {
       next(error);
     }
