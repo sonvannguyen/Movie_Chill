@@ -56,6 +56,34 @@ const userController = {
       next(createError(500, error.message));
     }
   },
+  getAllUser: async (req, res, next) => {
+    try {
+      const listUser = await UserModel.find({
+        isAdmin: false
+      }).select("-password");
+      const listUserResponse = listUser.map(user => ({
+        _id: user._id,
+        username: user.username,
+        avatar: user.avatar,
+        total_movie_bookmark: user.moviesBookmarks.length,
+        total_movie_watched: user.moviesWatched.length,
+        updatedAt: user.updatedAt,
+      }));
+      return res.status(200).json(listUserResponse);
+    } catch (error) {
+      next(createError(500, error.message));
+    }
+  },
+  deleteUser: async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+
+      await UserModel.findByIdAndDelete(userId);
+      return res.json({ message: "User deleted" });
+    } catch (error) {
+      next(createError(500, error.message));
+    }
+  },
   getUserById: async (req, res, next) => {
     try {
       const { userId } = req.params;
@@ -248,12 +276,12 @@ const userController = {
   },
   reportCommentMovie: async (req, res, next) => {
     try {
-      const comment = await CommentModel.findById(req.body.commentId) 
-      if(!comment) {
+      const comment = await CommentModel.findById(req.body.commentId);
+      if (!comment) {
         return res.json({ message: "Comment not found" });
       }
 
-      if(comment.usersReport.includes(req.body.userReport)){
+      if (comment.usersReport.includes(req.body.userReport)) {
         return res.json({ message: "Report comment success" });
       }
 
@@ -317,7 +345,9 @@ const userController = {
   },
   getAllReportComment: async (req, res, next) => {
     try {
-      const commentsReport = await CommentModel.find({ totalReport: { $gt: 1 } })
+      const commentsReport = await CommentModel.find({
+        totalReport: { $gt: 1 },
+      })
         .populate({
           path: "userComment",
           select: "username avatar",

@@ -33,12 +33,14 @@ const movieGroupRoute = require("./routes/movieGroupRoute");
 const userRoute = require("./routes/userRoute");
 const notificationRoute = require("./routes/notificationRoute");
 const uploadRoute = require("./routes/uploadCloudRoute");
+const adminRoute = require("./routes/adminRoute");
 
 app.use("/movie", movieRoute);
 app.use("/admin/movieGroup", movieGroupRoute);
 app.use("/user", userRoute);
 app.use("/notification", notificationRoute);
 app.use("/upload", uploadRoute);
+app.use("/admin", adminRoute);
 
 //404 handler and pass to error handler
 app.use((req, res, next) => {
