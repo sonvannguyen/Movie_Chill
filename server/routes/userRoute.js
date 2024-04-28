@@ -22,7 +22,7 @@ router.delete('/:userId/delete/all/bookmarked', auth, userController.deleteAllMo
 
 // comment
 router.post('/create/comment', auth,userController.createCommentMovie)
-router.delete('/delete/comment/:commentId', auth,userController.deleteCommentMovie)
+router.delete('/delete/comment/:commentId',userController.deleteCommentMovie)
 router.post('/update/comment',auth, userController.updateCommentMovie)
 router.post('/report/comment', auth,userController.reportCommentMovie)
 router.get('/report/comment',auth, userController.getAllReportComment)

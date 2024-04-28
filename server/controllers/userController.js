@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../models/User");
 const CommentModel = require("../models/Comment");
 const MovieModel = require("../models/Movie");
+const systemController = require("./systemController");
 
 const userController = {
   register: async (req, res, next) => {
@@ -28,6 +29,7 @@ const userController = {
       });
 
       await newUser.save();
+      await systemController.updateSystemStats("totalUser", 1);
       return res.status(200).json("Register success");
     } catch (error) {
       next(createError(500, error.message));
@@ -59,9 +61,9 @@ const userController = {
   getAllUser: async (req, res, next) => {
     try {
       const listUser = await UserModel.find({
-        isAdmin: false
+        isAdmin: false,
       }).select("-password");
-      const listUserResponse = listUser.map(user => ({
+      const listUserResponse = listUser.map((user) => ({
         _id: user._id,
         username: user.username,
         avatar: user.avatar,
@@ -79,6 +81,7 @@ const userController = {
       const { userId } = req.params;
 
       await UserModel.findByIdAndDelete(userId);
+      await systemController.updateSystemStats("totalUser", -1);
       return res.json({ message: "User deleted" });
     } catch (error) {
       next(createError(500, error.message));
@@ -101,6 +104,11 @@ const userController = {
   addMovieToListMoviesWatched: async (req, res, next) => {
     try {
       const { userId, movieId } = req.body;
+      await systemController.updateSystemStats("totalView", 1);
+      await MovieModel.findByIdAndUpdate(movieId, {
+        $inc: { total_view: 1 },
+      });
+
       const user = await UserModel.findById(userId);
 
       if (!user) {
@@ -245,6 +253,7 @@ const userController = {
         commentContent: content,
       });
       await newComment.save();
+      await systemController.updateSystemStats("totalComment", 1);
       return res.json({ newComment });
     } catch (error) {
       next(createError(500, error.message));
@@ -255,6 +264,7 @@ const userController = {
       const { commentId } = req.params;
 
       await CommentModel.findByIdAndDelete(commentId);
+      await systemController.updateSystemStats("totalComment", -1);
       return res.json({ message: "Comment deleted" });
     } catch (error) {
       next(createError(500, error.message));

@@ -4,6 +4,7 @@ const MovieGroupModel = require("../models/MovieGroup");
 const CommentModel = require("../models/Comment");
 const createError = require("http-errors");
 const notificationController = require("./notificationController");
+const systemController = require("./systemController");
 
 // xử lí khi người dùng tìm kiếm tên phim mà không gõ dấu . Tận dụng slug có sẵn trong db để tìm kiếm.
 
@@ -45,6 +46,7 @@ const movieController = {
     try {
       const newMovie = new MovieModel({ ...req.body });
       await newMovie.save();
+      await systemController.updateSystemStats("totalMovie", 1);
 
       return res.json({ newMovie });
     } catch (error) {
@@ -114,6 +116,7 @@ const movieController = {
     try {
       const { movieId } = req.params;
       await MovieModel.findByIdAndDelete(movieId);
+      await systemController.updateSystemStats("totalMovie", -1);
 
       const movieGroup = await MovieGroupModel.findOne({
         movieList: { $in: [movieId] },
