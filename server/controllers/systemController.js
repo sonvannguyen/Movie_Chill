@@ -9,7 +9,6 @@ const systemController = {
       stats_time: currentDate,
     });
 
-    console.log(currentStats)
     let newCurrentStats;
 
     if (!currentStats) {

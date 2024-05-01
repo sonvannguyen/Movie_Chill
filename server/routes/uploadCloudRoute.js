@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const fileUploader = require("../utils/cloundinary");
-// const auth = require('../middlewares/auth')
+const adminAuth = require("../auth/adminAuth");
 
-router.post("/image", fileUploader.single("file"), (req, res, next) => {
+router.post("/image", adminAuth, fileUploader.single("file"), (req, res, next) => {
   if (!req.file) {
     next(new Error("No file uploaded!"));
     return;

@@ -1,11 +1,12 @@
 const router = require('express').Router()
 const auth = require('../auth/auth')
+const adminAuth = require("../auth/adminAuth");
 const userController = require('../controllers/userController')
 // authorization
 router.post('/login', userController.login)
 router.post('/register', userController.register)
-router.get('/all', userController.getAllUser)
-router.delete('/delete/:userId', userController.deleteUser)
+router.get('/all', adminAuth, userController.getAllUser)
+router.delete('/delete/:userId', adminAuth, userController.deleteUser)
 router.get('/:userId',auth, userController.getUserById)
 
 // history
@@ -25,7 +26,7 @@ router.post('/create/comment', auth,userController.createCommentMovie)
 router.delete('/delete/comment/:commentId',userController.deleteCommentMovie)
 router.post('/update/comment',auth, userController.updateCommentMovie)
 router.post('/report/comment', auth,userController.reportCommentMovie)
-router.get('/report/comment',auth, userController.getAllReportComment)
+router.get('/report/comment',adminAuth, userController.getAllReportComment)
 
 // follow movie
 router.post('/follow', auth, userController.followMovie)
