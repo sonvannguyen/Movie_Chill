@@ -2,7 +2,9 @@ const createError = require("http-errors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const CommentModel = require("../models/Comment");
-const UserModel = require("../models/User")
+const UserModel = require("../models/User");
+const systemController = require("./systemController");
+const notificationController = require("./notificationController");
 
 const adminController = {
   login: async (req, res, next) => {
@@ -41,10 +43,10 @@ const adminController = {
         })
         .sort({ totalReport: -1 });
 
-      const response = []
+      const response = [];
 
       commentsReport.forEach((item) => {
-        if(item.userComment) {
+        if (item.userComment) {
           response.push({
             commentId: item._id,
             userId: item.userComment._id,
@@ -56,11 +58,29 @@ const adminController = {
             updatedAt: item.updatedAt,
             commentContent: item.commentContent,
             movie_slug: item.movieId.slug,
-          })
+          });
         }
       });
 
       return res.json(response);
+    } catch (error) {
+      next(createError(500, error.message));
+    }
+  },
+  deleteCommentMovie: async (req, res, next) => {
+    try {
+      const { commentId } = req.params;
+      const comment = await CommentModel.findById(commentId);
+      await CommentModel.findByIdAndDelete(commentId);
+      await systemController.updateSystemStats("totalComment", -1);
+
+      const notificationContent = `Comment "${comment.commentContent}" bị xóa bởi Admin do vi phạm nguyên tắc cộng đồng. Lưu ý: nếu vi phạm quá 3 lần bạn sẽ có thể bị khóa tài khoản !`;
+      await notificationController.createNotificationForUser(
+        notificationContent,
+        comment.userComment
+      );
+
+      return res.json({ message: "Comment deleted" });
     } catch (error) {
       next(createError(500, error.message));
     }

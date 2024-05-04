@@ -30,6 +30,19 @@ const userApi = {
       return err.message;
     }
   },
+  updateUserInfo: async (userInfo) => {
+    try {
+      const configHeader = getConfigHeader();
+      const res = await axios.post(
+        `${BASE_URL_USER}/update-info`,
+        userInfo,
+        configHeader
+      );
+      return res.data;
+    } catch (err) {
+      return err.message;
+    }
+  },
   getMoviesFromListMoviesBookmark: async (userId) => {
     try {
       const configHeader = getConfigHeader();

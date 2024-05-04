@@ -57,6 +57,27 @@ const notificationController = {
       return false;
     }
   },
+  createNotificationForUser: async (content, userId) => {
+    try {
+      const newNotification = new NotificationModel({
+        content: content,
+        type: "USER",
+      });
+      const savedNotification = await newNotification.save();
+      const notificationId = savedNotification._id;
+
+      const newNotiHistory = new NotificationHistoryModel({
+        userId: userId,
+        notificationId: notificationId,
+        status: "UNREAD",
+      });
+      await newNotiHistory.save();
+      // TODO: emit noti
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
   deleteNotification: async (req, res, next) => {
     try {
       const { notificationId } = req.params;
@@ -89,7 +110,10 @@ const notificationController = {
 
       if (action == "byUser") {
         //handle change status to read
-        await NotificationHistoryModel.updateMany({ _id: { $in: notificationMovie.map(noti => noti._id) } }, { status: "READ" });
+        await NotificationHistoryModel.updateMany(
+          { _id: { $in: notificationMovie.map((noti) => noti._id) } },
+          { status: "READ" }
+        );
       }
       return res.json(notificationMovie);
     } catch (error) {

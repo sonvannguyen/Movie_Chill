@@ -101,6 +101,18 @@ const userController = {
       next(createError(500, error.message));
     }
   },
+  updateUserInfo: async (req, res, next) => {
+    try {
+      const { userId, username, avatar } = req.body;
+      await UserModel.findByIdAndUpdate(userId, {
+        username: username,
+        avatar: avatar,
+      });
+      return res.status(200).json({ message: "success" });
+    } catch (error) {
+      next(createError(500, error.message));
+    }
+  },
   addMovieToListMoviesWatched: async (req, res, next) => {
     try {
       const { userId, movieId } = req.body;

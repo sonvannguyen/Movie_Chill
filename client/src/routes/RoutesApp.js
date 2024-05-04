@@ -11,6 +11,7 @@ import SignUp from "../pages/SignUp";
 import Watch from "../pages/Watch";
 import PrivateRoutes from "./PrivateRoutes";
 import Notification from "../pages/Notification";
+import User from "../pages/User"
 
 const RoutesApp = () => {
     return ( 
@@ -19,6 +20,7 @@ const RoutesApp = () => {
                 <Route path="history" element={<History/>}/>
                 <Route path="bookmarked" element={<Bookmarked/>}/>
                 <Route path="notification" element={<Notification/>}/>
+                <Route path="user" element={<User/>}/>
             </Route>
 
             <Route path="filter" element={<FilterMovie/>}/>

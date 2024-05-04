@@ -72,7 +72,7 @@ const movieController = {
 
       const mergedData = {
         movie: movieData,
-        comments: commentData,
+        comments: commentData.filter(comment => !!comment.userComment),
       };
       return res.json(mergedData);
     } catch (error) {

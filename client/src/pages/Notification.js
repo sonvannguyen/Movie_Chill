@@ -88,34 +88,6 @@ const Notification = () => {
               </div>
             ))}
         </div>
-
-        {/* <div className="px-5 md:px-6 lg:px-0 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mt-7">
-          {moviesData &&
-            moviesData?.map((movie) => (
-              <MovieItem
-                key={movie._id}
-                inPageEdit="true"
-                movieData={movie}
-                handleOpenModalDeleteAMovie={handleOpenModalDeleteAMovie}
-              />
-            ))}
-        </div>
-
-        {moviesData?.length === 0 && (
-          <div className="flex flex-col w-full mx-auto items-center min-h-[260px]">
-            <img
-              className="w-40 md:w-60 object-cover"
-              src={icon_addmovie}
-              alt="icon"
-            />
-            <p className="text-center md:text-lg italic text-gray-400 mt-[-10px]">
-              Bạn chưa xem phim nào.
-              <br /> Hãy trải nghiệm ngay với Movie Chill nhé !
-            </p>
-          </div>
-        )}
-
-        {moviesData?.length > 0 && <Footer />} */}
       </div>
       <div className="hidden lg:block lg:col-span-1">
         <SidebarSuggestions />
