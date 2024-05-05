@@ -5,6 +5,7 @@ import {BsBookmarkCheck} from 'react-icons/bs'
 import { CiLogout, CiLogin} from 'react-icons/ci'
 import { AiOutlineUser } from "react-icons/ai";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { IoChatboxOutline } from "react-icons/io5";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import notificationApi from "../services/notificationApi";
@@ -69,9 +70,20 @@ const Sidebar = () => {
                     <h3 className='text-xl mt-10 mb-4 font-bold'>PERSONAL</h3>
 
                     <NavLink to='/user' className={navItem}>
-                        <AiOutlineUser  size={25}/>
+                        <AiOutlineUser  size={23}/>
                         <div className='flex flex-col'>
                             <span className='lg:text-lg'>Thông tin cá nhân</span>
+                            {
+                                !accessToken && 
+                                <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  
+                            }
+                        </div>
+                    </NavLink>
+
+                    <NavLink to='/chat' className={navItem}>
+                        <IoChatboxOutline size={22}/>
+                        <div className='flex flex-col'>
+                            <span className='lg:text-lg'>Trò chuyện nhóm</span>
                             {
                                 !accessToken && 
                                 <span className='text-[13px] font-thin text-white italic'>( Yêu cầu đăng nhập )</span>  

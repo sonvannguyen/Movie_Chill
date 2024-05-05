@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const http = require("http");
+const socket = require("socket.io");
 
 require("dotenv").config();
 express.json();
@@ -39,6 +41,7 @@ const userRoute = require("./routes/userRoute");
 const notificationRoute = require("./routes/notificationRoute");
 const uploadRoute = require("./routes/uploadCloudRoute");
 const adminRoute = require("./routes/adminRoute");
+const chatController = require("./controllers/chatController");
 
 app.use("/movie", movieRoute);
 app.use("/admin/movieGroup", movieGroupRoute);
@@ -63,6 +66,43 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT || 5000, () => {
+const server = app.listen(process.env.PORT || 5000, () => {
   console.log("start server");
+});
+
+// const server = http.createServer(app);
+const socketIo = socket(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+let userActives = [];
+
+// socket io
+socketIo.on("connection", async (socket) => {
+  console.log("New client connected" + socket.id);
+
+  if (!userActives.includes(socket.id)) {
+    userActives.push(socket.id);
+  }
+
+  socket.emit("getId", socket.id);
+  socketIo.emit("userActive", { totalUserActive: userActives.length });
+  const chatsHistory = await chatController.getChatsHistory();
+  socketIo.emit("sendDataServer", { chatsHistory });
+
+  socket.on("sendDataClient", async function (data) {
+    await chatController.createChat({
+      userId: data.userId,
+      message: data.content,
+    });
+    const chatsHistory = await chatController.getChatsHistory();
+    socketIo.emit("sendDataServer", { chatsHistory });
+  });
+
+  socket.on("disconnect", () => {
+    userActives = userActives.filter((id) => id != socket.id);
+    console.log("Client disconnected");
+  });
 });
