@@ -7,7 +7,7 @@ router.post('/login', userController.login)
 router.post('/register', userController.register)
 router.get('/all', adminAuth, userController.getAllUser)
 router.delete('/delete/:userId', adminAuth, userController.deleteUser)
-router.get('/update-info',auth, userController.updateUserInfo)
+router.post('/update-info',auth, userController.updateUserInfo)
 router.get('/:userId',auth, userController.getUserById)
 
 // history

@@ -1,36 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import SidebarSuggestions from "../components/SidebarSuggestions";
-import { CiSettings, CiUser } from "react-icons/ci";
-import moment from "moment";
-import { useNavigate } from "react-router-dom";
 import UploadImage from "../components/UploadImage";
-import userApi from "../services/userApi";
 
 const User = () => {
-  // const refUsername = useRef(null);
-  // const navigate = useNavigate();
-  // const username = localStorage.getItem("username");
-  // const userId = localStorage.getItem("movie_userId");
-  // const accessToken = localStorage.getItem("movie_access_token");
-
-  // const { data: userInfo, refetch } = useQuery(
-  //   ["userInfo", userId],
-  //   () => userApi.getUserById(userId),
-  //   {
-  //     enabled: false,
-  //   }
-  // );
-
-  // useEffect(() => {
-  //   if (userId && accessToken) {
-  //     refetch();
-  //   }
-  // }, []);
-
-
   return (
     <div className="md:grid lg:grid-cols-5 lg:gap-6 md:grid-cols-4">
       <div className="hidden bg:block md:block col-start-1 col-end-2 h-screen">
@@ -46,25 +19,7 @@ const User = () => {
         </div>
 
         <div className="w-[500px]">
-          <UploadImage/>
-          {/* <div>
-            <h3 className="my-3 text-lg">Username: </h3>
-
-            <input
-              type="text"
-              ref={refUsername}
-              defaultValue={username}
-              className="bg-zinc-800 w-full outline-none py-3 pl-5 rounded-2xl placeholder-gray-400 placeholder-opacity-75"
-            />
-          </div>
-
-          <div>
-            <h3 className="my-3 text-lg">Avatar: </h3>
-            <UploadImage
-              avatarDefault={userInfo?.user?.avatar}
-              username={refUsername?.current?.value ?? username}
-            />
-          </div> */}
+          <UploadImage />
         </div>
       </div>
       <div className="hidden lg:block lg:col-span-1">

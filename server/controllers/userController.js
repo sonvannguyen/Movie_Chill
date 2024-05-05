@@ -90,10 +90,8 @@ const userController = {
   getUserById: async (req, res, next) => {
     try {
       const { userId } = req.params;
-      console.log(req.params);
       const user = await UserModel.findById(userId).select("-password");
       if (user) {
-        console.log(user);
         return res.status(200).json({ user });
       }
       throw createError(404, `Not found user with id ${userId}`);
