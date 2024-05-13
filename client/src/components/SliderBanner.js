@@ -23,7 +23,7 @@ const SliderBanner = ({randomGroupItem}) => {
                 moviesData?.map((movie) => (
                     <SwiperSlide key={movie?._id}>
                         <div className='relative cursor-pointer group'>
-                            <img src={movie['poster_url']} alt="img banner" className='h-48 md:h-96 w-full object-cover group-hover:opacity-90 transition duration-200 ease-in-out'/>
+                            <img src={movie['poster_url']?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live")} alt="img banner" className='h-48 md:h-96 w-full object-cover group-hover:opacity-90 transition duration-200 ease-in-out'/>
                             <div 
                                 className='absolute top-0 left-0 right-0 bottom-0'
                                 style={{background: "linear-gradient(266deg, rgba(0,0,0,0.18017629415047265) 0%, rgba(0,0,0,0.805946602273722) 100%)"}}

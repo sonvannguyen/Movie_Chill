@@ -154,14 +154,14 @@ const MovieInfor = ({movieDetailData, isLoading, movieRecommnedData}) => {
                         (
                             <>
                                 <img 
-                                    src={movieDetailData?.poster_url || movieDetailData?.thumb_url} 
+                                    src={movieDetailData?.poster_url?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live") || movieDetailData?.thumb_url?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live")} 
                                     className='h-full w-full object-cover ' 
                                     alt="poster img" 
                                 />
                                 <div className='absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.12)]'></div>
     
                                 <img 
-                                    src={movieDetailData?.thumb_url} 
+                                    src={movieDetailData?.thumb_url?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live")} 
                                     className='absolute z-10 w-[100px] md:w-[130px] bottom-[-14px] md:bottom-[-30px] lg:w-[170px] rounded-md shadow-primary' 
                                     alt="thumb img" 
                                 />

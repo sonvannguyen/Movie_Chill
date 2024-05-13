@@ -26,7 +26,7 @@ const MovieItem = ({inPageEdit, movieData, handleOpenModalDeleteAMovie, isLoadin
                                 {/* for mobile */}
                                 <LazyLoad className='md:hidden LazyLoad' height={300}>
                                     <img 
-                                        src={movieData?.thumb_url}
+                                        src={movieData?.thumb_url?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live")}
                                         className='is-visible w-full min-h-[300px] max-h-[300px] md:min-h-[260px] lg:min-h-[260px] lg:max-h-[260px] object-cover rounded-md cursor-pointer group-hover:opacity-70 group-hover:scale-105 transition duration-300 ease-in-out'
                                         alt="thumb img" 
                                     />
@@ -38,7 +38,7 @@ const MovieItem = ({inPageEdit, movieData, handleOpenModalDeleteAMovie, isLoadin
                                     (
                                         <LazyLoad className='hidden md:block LazyLoad' height={260} width={200} offset={100}>
                                             <img 
-                                                src={movieData?.thumb_url}
+                                                src={movieData?.thumb_url?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live")}
                                                 className='is-visible min-h-[260px] max-h-[260px] object-cover rounded-md cursor-pointer group-hover:opacity-70 group-hover:scale-105 transition duration-300 ease-in-out'
                                                 alt="thumb img" 
                                             />
@@ -46,7 +46,7 @@ const MovieItem = ({inPageEdit, movieData, handleOpenModalDeleteAMovie, isLoadin
                                     ):
                                     (
                                         <img 
-                                            src={movieData?.thumb_url}
+                                            src={movieData?.thumb_url?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live")}
                                             className='hidden md:block is-visible min-h-[260px] max-h-[260px] object-cover rounded-md cursor-pointer group-hover:opacity-70 group-hover:scale-105 transition duration-300 ease-in-out'
                                             alt="thumb img" 
                                         />

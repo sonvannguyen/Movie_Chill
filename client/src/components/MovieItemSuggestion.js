@@ -27,7 +27,7 @@ const MovieItemSuggestion = ({movieData, isLoading}) => {
 
                             <LazyLoad LazyLoad height={120} className='LazyLoad ' >
                                 <img
-                                    src={movieData?.thumb_url} 
+                                    src={movieData?.thumb_url?.replace("https://img.hiephanhthienha.com", "https://img.ophim.live")} 
                                     alt="movie thumb" 
                                     className="is-visible max-w-[80px] h-full object-cover opacity-90 group-hover:opacity-60 rounded-md"
                                 />
