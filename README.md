@@ -1,5 +1,4 @@
-Website xem phim và quản lý phim sử dụng Nodejs, ReactJs và MongoDB
-- Các chức năng chính như:
+Website xem phim và quản lý phim sử dụng Nodejs, ReactJs và MongoDB với các chức năng chính như:
 + Tìm kiếm, lọc và xem phim theo chủ đề.
 + Theo dõi và bookmark phim cũng như truy cập lịch sử xem.
 + Nhận thông báo cập nhật phim.
