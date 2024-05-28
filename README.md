@@ -1,4 +1,4 @@
-< Source code mới nhất tại Branch Develop >
+< Source code mới nhất tại Branch Develop: https://github.com/sonvannguyen/Movie_Chill/tree/develop >
 
 Website xem phim và quản lý phim sử dụng Nodejs, ReactJs và MongoDB với các chức năng chính như:
 + Tìm kiếm, lọc và xem phim theo chủ đề.
